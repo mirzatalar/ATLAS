@@ -13,15 +13,23 @@ SOURCES += \
     Controller/mapcontroller.cpp \
     Controller/mapdrawer.cpp \
     GUI/models/Line.cpp \
+    GUI/models/circle.cpp \
+    GUI/models/circlemodel.cpp \
     GUI/models/linemodel.cpp \
+    GUI/models/path.cpp \
+    GUI/models/pathmodel.cpp \
     main.cpp
 
 HEADERS += \
     Controller/maincontroller.h \
     Controller/mapcontroller.h \
     Controller/mapdrawer.h \
+    GUI/models/circle.h \
+    GUI/models/circlemodel.h \
     GUI/models/line.h \
-    GUI/models/linemodel.h
+    GUI/models/linemodel.h \
+    GUI/models/path.h \
+    GUI/models/pathmodel.h
 
 FORMS +=
 

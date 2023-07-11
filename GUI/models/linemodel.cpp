@@ -15,16 +15,21 @@ atlas::gui::LineModel::LineModel(QObject *parent)
     mRoleNames[Color] = "clr";
     mRoleNames[IsHighlited] = "ishighlited";
     mRoleNames[IsVisible] = "isvisible";
+    mRoleNames[Opacity] = "oppacity";
 }
 
-bool atlas::gui::LineModel::drawLine(int mId,const QGeoCoordinate &mcoordinate1, const QGeoCoordinate &mcoordinate2, const QString &mColor, bool mIsVisible, bool mIsHighlited)
+bool atlas::gui::LineModel::draw(int mId,const QGeoCoordinate &mcoordinate1, const QGeoCoordinate &mcoordinate2, const QString &mColor)
 {
 
     beginInsertRows(QModelIndex(), 0, 0);
 
-    Line newLine(mId,mcoordinate1, mcoordinate2, mColor,mIsVisible, mIsHighlited);
+
+    Line newLine(mId,mcoordinate1, mcoordinate2, mColor);
+    newLine.mIsVisible = 1;
+    newLine.mIsHighlited = 0;
 
     mData.push_back(newLine);
+
 
     qDebug()<<"Model: "<<mColor;
 
@@ -35,23 +40,142 @@ bool atlas::gui::LineModel::drawLine(int mId,const QGeoCoordinate &mcoordinate1,
     return true;
 }
 
+bool atlas::gui::LineModel::move(int mId, const QGeoCoordinate& mCenter){
+    auto returned = [mId](const Line& line){return line.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+        QVector<int> roles = {Latitude1, Longitude1,Latitude2, Longitude2};
+
+
+        double a = (it->mCoordinate1.latitude() + it->mCoordinate2.latitude())/2;
+
+        double b = (it->mCoordinate1.longitude() + it->mCoordinate2.longitude())/2;
+
+        double changeinx = mCenter.latitude() - a;
+        double changeiny = mCenter.longitude() - b;
+
+        QGeoCoordinate new1;
+        QGeoCoordinate new2;
+
+        new1.setLatitude(it->mCoordinate1.latitude() + changeinx);
+        new2.setLatitude(it->mCoordinate2.latitude() + changeinx);
+
+        new1.setLongitude(it->mCoordinate1.longitude() + changeiny);
+        new2.setLongitude(it->mCoordinate2.longitude() + changeiny);
+
+        it->mCoordinate1 = new1;
+        it->mCoordinate2 = new2;
+
+
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+
+    return false;
+}
 
 
 
-
-bool atlas::gui::LineModel::removeLine(int mId)
+bool atlas::gui::LineModel::remove(int mId)
 {
+
     auto isremoved = [mId](const Line& line){return line.mId == mId;};
 
     auto itr = std::find_if(mData.begin(),mData.end(),isremoved);
 
     beginRemoveRows(QModelIndex(), std::distance(mData.begin(), itr), std::distance(itr, mData.end()));
+
     mData.erase(itr,mData.end());
     endRemoveRows();
-
-
-    return itr != mData.end();
+    return true;//sor
 }
+
+bool  atlas::gui::LineModel::setHighlight(int mId, bool status){
+
+    auto returned = [mId](const Line& line){return line.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {IsHighlited};
+        it->mIsHighlited = status;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+}
+
+bool atlas::gui::LineModel::setColor(int mId, const QString& mColor){
+    auto returned = [mId](const Line& line){return line.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {Color};
+        it->mColor = mColor;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+}
+
+bool atlas::gui::LineModel::setOpacity(int mId, double opacity){
+    auto returned = [mId](const Line& line){return line.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {Opacity};
+        it->mOpacity = opacity;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+}
+
+
+bool atlas::gui::LineModel::setVisibility(int mId, bool status){
+    auto returned = [mId](const Line& line){return line.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {IsVisible};
+        it->mIsVisible = status;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+}
+
+bool atlas::gui::LineModel::isExist(int mId)
+{
+    auto isExist = [mId](const Line& line){return line.mId == mId;};
+
+    return  std::find_if(mData.begin(),mData.end(),isExist) != mData.end();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 int  atlas::gui::LineModel::rowCount(const QModelIndex &parent) const
@@ -83,11 +207,19 @@ QVariant atlas::gui::LineModel::data(const QModelIndex &index, int role) const
     case Longitude2:
         return line.mCoordinate2.longitude();
     case Color:
+
+        if( line.mIsHighlited == 1){
+            return "green";
+        }
         return line.mColor;
     case IsHighlited:
         return line.mIsHighlited;
-    case IsVisible:
-        return line.mIsVisible;
+    case Opacity:
+
+        if( line.mIsVisible == 0){
+            return 0;
+        }
+        return line.mOpacity;
     default:
         break;
     }

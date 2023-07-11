@@ -21,12 +21,19 @@ namespace atlas::gui {
             Longitude2,
             Color,
             IsVisible,
+            Opacity,
             IsHighlited
 
         };
 
-        bool drawLine(int mId, const QGeoCoordinate& mcoordinate1,const QGeoCoordinate& mcoordinate2,const QString& mColor, bool mIsVisible, bool mIsHighlited);
-        bool removeLine(int mId);
+        bool draw(int mId, const QGeoCoordinate& mcoordinate1,const QGeoCoordinate& mcoordinate2,const QString& mColor);
+        bool move(int mId, const QGeoCoordinate& mCenter);
+        bool remove(int mId);
+        bool setHighlight(int mId, bool status);
+        bool setOpacity(int mId, double opacity);
+        bool setVisibility(int mId, bool status);
+        bool setColor(int mId, const QString& mColor);
+        bool isExist(int mId);
 
         // QAbstracListModelInterface
         int rowCount(const QModelIndex &parent) const;
@@ -36,6 +43,7 @@ namespace atlas::gui {
     private:
         std::vector<Line> mData;
         QHash<int, QByteArray> mRoleNames;
+
     };
 }
 #endif // LINEMODEL_H

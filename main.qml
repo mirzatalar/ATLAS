@@ -37,19 +37,53 @@ Window {
                 MapItemView {
                     model: lineModel
                     delegate:
-                        MapRectangle{
+                        MapPolyline{
                             id:xs
-                            color:clr
-                            bottomRight: QtPositioning.coordinate(latitude1,longitude1)
-                            topLeft: QtPositioning.coordinate(latitude2,longitude2)
+                            //color:clr
+                            line.width: 5
 
+                            line.color: clr
+                            opacity: oppacity
+
+                            path: [
+                                    { latitude: latitude1, longitude: longitude1 },
+                                    { latitude: latitude2, longitude: longitude2 }]
                             z:10
 
                         }
 
 
 
-}
+                }
+
+                MapItemView {
+                    model: pathModel
+                    delegate:
+                        MapPolyline{
+                            line.width: 5
+                            line.color: 'yellow'
+                            path: pathModel.path
+                        }
+
+
+
+                }
+
+                MapItemView {
+                    model: circleModel
+                    delegate:
+                        MapCircle{
+                            id:crcl
+                            color:clr
+                            radius: 5000
+                            opacity: oppacity
+                            center: QtPositioning.coordinate(latitude, longitude)
+
+                        }
+
+
+
+                }
 
 
 

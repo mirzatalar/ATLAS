@@ -8,10 +8,11 @@
 class Line {
 public:
     Line();
-    Line(int mId, QGeoCoordinate mCoordinate1, QGeoCoordinate mCoordinate2, QString mColor,  bool mIsVisible, bool mIsHighlited);
+    Line(int mId, QGeoCoordinate mCoordinate1, QGeoCoordinate mCoordinate2, QString mColor);
     int mId;
     QString mColor;
     bool mIsVisible;
+    double mOpacity;
     bool mIsHighlited;
     QGeoCoordinate mCoordinate1;
     QGeoCoordinate mCoordinate2;
