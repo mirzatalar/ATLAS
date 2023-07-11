@@ -14,11 +14,9 @@ Window {
     title: qsTr("Project:ATLAS")
 
 
-
-
-
-
-
+    Connections {
+        target: mapController
+     }
         Plugin{
             id: gsat
             name: "osm"
@@ -31,8 +29,29 @@ Window {
                 id: map1
                 anchors.fill: parent
                 plugin: gsat
-                center: QtPositioning.coordinate(39.91, 35.75)
-                zoomLevel: 8
+                center: mapController.center
+                zoomLevel: mapController.zoomLevel
+                tilt: mapController.tilt
+                bearing: mapController.bearing
+
+                MapItemView {
+                    model: lineModel
+                    delegate:
+                        MapRectangle{
+                            id:xs
+                            color:clr
+                            bottomRight: QtPositioning.coordinate(latitude1,longitude1)
+                            topLeft: QtPositioning.coordinate(latitude2,longitude2)
+
+                            z:10
+
+                        }
+
+
+
+}
+
+
 
 
 

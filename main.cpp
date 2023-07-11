@@ -3,6 +3,10 @@
 #include <QQmlContext>
 #include <QTimer>
 #include <QRandomGenerator>
+#include <Controller/maincontroller.h>
+#include <iostream>
+#include "Controller/mapdrawer.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -10,8 +14,15 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
+    //Q_PROPERTY(type name READ name WRITE setName NOTIFY nameChanged)
 
     QQmlApplicationEngine engine;
+
+    atlas::controller::MainController mainController;
+
+
+
+    mainController.init(&engine);
 
 
 
@@ -22,6 +33,10 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
     engine.load(url);
+
+
+
+
 
 
     return app.exec();

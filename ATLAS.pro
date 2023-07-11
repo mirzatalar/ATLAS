@@ -9,14 +9,21 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp
+    Controller/maincontroller.cpp \
+    Controller/mapcontroller.cpp \
+    Controller/mapdrawer.cpp \
+    GUI/models/Line.cpp \
+    GUI/models/linemodel.cpp \
+    main.cpp
 
 HEADERS += \
-    mainwindow.h
+    Controller/maincontroller.h \
+    Controller/mapcontroller.h \
+    Controller/mapdrawer.h \
+    GUI/models/line.h \
+    GUI/models/linemodel.h
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
