@@ -27,6 +27,7 @@ bool atlas::gui::LineModel::draw(int mId,const QGeoCoordinate &mcoordinate1, con
     Line newLine(mId,mcoordinate1, mcoordinate2, mColor);
     newLine.mIsVisible = 1;
     newLine.mIsHighlited = 0;
+    newLine.mOpacity = 1;
 
     mData.push_back(newLine);
 

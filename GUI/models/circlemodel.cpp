@@ -25,6 +25,7 @@ bool atlas::gui::CircleModel::draw(int mId,const QGeoCoordinate &mCenter, const 
     Circle newCircle(mId,mCenter, mColor);
     newCircle.mIsVisible = 1;
     newCircle.mIsHighlited = 0;
+    newCircle.mOpacity = 1;
 
     mData.push_back(newCircle);
 

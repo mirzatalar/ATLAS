@@ -61,8 +61,9 @@ Window {
                     delegate:
                         MapPolyline{
                             line.width: 5
-                            line.color: 'yellow'
-                            path: pathModel.path
+                            line.color: clr
+                            opacity: oppacity
+                            path: pth
                         }
 
 

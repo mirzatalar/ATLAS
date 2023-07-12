@@ -52,33 +52,56 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     f.setLongitude(39);
 
 
-    mMapDrawer->drawLine(18,b,a,"red");
-    mMapDrawer->drawCircle(25,b,"pink");
-    mMapDrawer->setColor(18,"blue");
-    mMapDrawer->setColor(25,"white");
+//    mMapDrawer->drawLine(18,b,a,"red");
+//    mMapDrawer->drawLine(19,b,e,"black");
+//    mMapDrawer->drawCircle(25,b,"pink");
+//    mMapDrawer->drawCircle(26,a,"blue");
 
-    mMapDrawer->setHighlight(18,1);
-    mMapDrawer->setHighlight(25,1);
+//    mMapDrawer->setColor(18,"blue");
+//    mMapDrawer->setColor(25,"white");
 
-    mMapDrawer->setOpacity(18,0.5);
-    mMapDrawer->setOpacity(25,0.5);
-    //mMapDrawer->setVisibility(18,0);
-    //mMapDrawer->setVisibility(25,0);
+//    mMapDrawer->setHighlight(18,1);
+//    mMapDrawer->setHighlight(25,1);
+//    mMapDrawer->setHighlight(26,1);
+
+//    mMapDrawer->setOpacity(18,0.5);
+//    mMapDrawer->setOpacity(25,0.5);
+//    mMapDrawer->setVisibility(19,1);
+//    mMapDrawer->setVisibility(26,1);
 
 
    //mMapDrawer->move(18,c);
    // mMapDrawer->move(25,c);
 
-    mMapDrawer->setHighlight(18,0);
-    mMapDrawer->setHighlight(25,0);
+//    mMapDrawer->setHighlight(18,0);
+//    mMapDrawer->setHighlight(25,0);
 
-    mMapDrawer->addPosition(a);
-    mMapDrawer->addPosition(b);
-    mMapDrawer->addPosition(c);
-    mMapDrawer->addPosition(d);
-    mMapDrawer->addPosition(e);
-    mMapDrawer->addPosition(f);
+//    mMapDrawer->addPosition(a);
+//    mMapDrawer->addPosition(b);
+//    mMapDrawer->addPosition(c);
+//    mMapDrawer->addPosition(d);
+//    mMapDrawer->addPosition(e);
+//    mMapDrawer->addPosition(f);
 
+
+    QList<QGeoCoordinate> qvl;
+    qvl.push_back(a);
+    qvl.push_back(b);
+    qvl.push_back(c);
+
+
+    QList<QGeoCoordinate> qvl1;
+    qvl1.push_back(d);
+    qvl1.push_back(e);
+    qvl1.push_back(f);
+
+
+
+
+    mMapDrawer->drawPath(5,qvl,"darkblue");
+    mMapDrawer->drawPath(6,qvl1,"red");
+    mMapDrawer->updatePath(5,1,e);
+    mMapDrawer->updatePath(5,0,e);
 
 
 

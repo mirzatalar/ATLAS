@@ -1,61 +1,259 @@
 #include "pathmodel.h"
+#include <iostream>
 
-PathModel::PathModel(QObject *parent):
-    QAbstractListModel(parent)
+#include <QDebug>
+
+
+atlas::gui::PathModel::PathModel(QObject *parent)
+    : QAbstractListModel{parent}
+{
+    mRoleNames[Id] = "Id" ;
+    mRoleNames[Pth] = "pth" ;
+    mRoleNames[Color] = "clr";
+    mRoleNames[IsHighlited] = "ishighlited";
+    mRoleNames[IsVisible] = "isvisible";
+    mRoleNames[Opacity] = "oppacity";
+}
+
+bool atlas::gui::PathModel::draw(int mId,const QList<QGeoCoordinate>& points,const QString& mColor)
 {
 
-    connect(this, &QAbstractListModel::dataChanged, this, &PathModel::pathChanged);
+    beginInsertRows(QModelIndex(), 0, 0);
 
-}
- void PathModel::addPosition(const QGeoCoordinate &coordinate) {
+    Path newPath(mId,points,mColor);
+    newPath.mIsVisible = 1;
+    newPath.mIsHighlited = 0;
+    newPath.mOpacity = 1;
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    mData.append(QVariant::fromValue(coordinate));
-    emit pathChanged();
+    mData.push_back(newPath);
+    qDebug()<<"Model path: "<<mColor;
+
+    std::cout << "Path " << newPath.mId << " has been added" << std::endl;
+
     endInsertRows();
 
-
+    return true;
 }
 
- void PathModel::drawPath(int mId, std::vector <QGeoCoordinate> &points){
+bool atlas::gui::PathModel::move(int mId, const QGeoCoordinate& mCenter){
+    auto returned = [mId](const Path& path){return path.mId == mId;};
 
-    for (int var = 0; var < points.size(); ++var) {
-        addPosition(points[var]);
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+        QVector<int> roles = {Pth};
+
+
+        double a = it->mPoints.at( it->mPoints.size()/2).latitude();
+
+        double b = it->mPoints.at( it->mPoints.size()/2).longitude();
+
+        double changeinx = mCenter.latitude() - a;
+        double changeiny = mCenter.longitude() - b;
+
+        for (int i = 0; i < it->mPoints.size(); ++i) {
+            it->mPoints[i].setLatitude(it->mPoints.at(i).latitude() + changeinx);
+        }
+
+        for (int i = 0; i < it->mPoints.size(); ++i) {
+            it->mPoints[i].setLongitude(it->mPoints.at(i).longitude() + changeiny);
+        }
+
+
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
     }
 
-
-
-
- }
-
-int PathModel::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent)
-    return mData.count();
+    return false;
 }
 
-QVariant PathModel::data(const QModelIndex &index, int role) const
-{
-    if (index.row() < 0 || index.row() >= mData.count())
-    {
-        return QVariant();
+bool atlas::gui::PathModel::addPoint(int mId, const QGeoCoordinate& mNewPoint){
+    auto returned = [mId](const Path& path){return path.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+        QVector<int> roles = {Pth};
+
+
+        it->mPoints.push_back(mNewPoint);
+
+
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
     }
-    if (role == positionRole)
-    {
-        return QVariant::fromValue(mData[index.row()]);
+
+    return false;
+}
+
+bool atlas::gui::PathModel::removePoint(int mId, const QGeoCoordinate& mDeletedPoint){
+    auto returned = [mId](const Path& path){return path.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+        QVector<int> roles = {Pth};
+
+        for (int i = 0; i < it->mPoints.size(); ++i) {
+            if(mDeletedPoint == it->mPoints[i]){
+                it->mPoints.removeAt(i);
+                break;
+            }
+        }
+
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
     }
-    return QVariant();
-}
 
-QHash<int, QByteArray> PathModel::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-    roles[positionRole] = "position";
-    return roles;
+    return false;
 }
 
 
-QVariantList PathModel::path() const
+bool atlas::gui::PathModel::remove(int mId)
 {
-    return mData;
+
+    auto isremoved = [mId](const Path& path){return path.mId == mId;};
+
+    auto itr = std::find_if(mData.begin(),mData.end(),isremoved);
+
+    beginRemoveRows(QModelIndex(), std::distance(mData.begin(), itr), std::distance(itr, mData.end()));
+
+    mData.erase(itr,mData.end());
+    endRemoveRows();
+    return true;//sor
+}
+
+bool  atlas::gui::PathModel::setHighlight(int mId, bool status){
+
+    auto returned = [mId](const Path& path){return path.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {IsHighlited};
+        it->mIsHighlited = status;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+}
+
+bool atlas::gui::PathModel::setColor(int mId, const QString& mColor){
+    auto returned = [mId](const Path& path){return path.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {Color};
+        it->mColor = mColor;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+}
+
+bool atlas::gui::PathModel::setOpacity(int mId, double opacity){
+    auto returned = [mId](const Path& path){return path.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {Opacity};
+        it->mOpacity = opacity;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+}
+
+
+bool atlas::gui::PathModel::setVisibility(int mId, bool status){
+    auto returned = [mId](const Path& path){return path.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {IsVisible};
+        it->mIsVisible = status;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+}
+
+bool atlas::gui::PathModel::isExist(int mId)
+{
+    auto isExist = [mId](const Path& path){return path.mId == mId;};
+
+    return  std::find_if(mData.begin(),mData.end(),isExist) != mData.end();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int  atlas::gui::PathModel::rowCount(const QModelIndex &parent) const
+{
+    return mData.size();
+}
+
+
+QVariant atlas::gui::PathModel::data(const QModelIndex &index, int role) const
+{
+
+    if (!hasIndex(index.row(), index.column(), index.parent()))
+        return {};
+
+
+    const auto& path = mData.at(index.row());
+
+    switch (role) {
+
+    case Id:
+        return path.mId;
+    case Color:
+
+        if( path.mIsHighlited == 1){
+            return "green";
+        }
+        return path.mColor;
+    case IsHighlited:
+        return path.mIsHighlited;
+    case Opacity:
+
+        if( path.mIsVisible == 0){
+            return 0;
+        }
+        return path.mOpacity;
+
+    case Pth:
+        return QVariant::fromValue(path.mPoints);;
+
+    default:
+        break;
+    }
+}
+
+QHash<int, QByteArray> atlas::gui::PathModel::roleNames() const
+{
+    return mRoleNames;
 }

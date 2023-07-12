@@ -8,10 +8,14 @@ class Path
 {
 public:
     Path();
-    Path(int mId, QVariantList mPoints, QString mColor);
+    Path(int mId, QList<QGeoCoordinate> mPoints, QString mColor);
     int mId;
     QString mColor;
-    QVariantList mPoints;
+    QList<QGeoCoordinate> mPoints;
+    bool mIsVisible;
+    double mOpacity;
+    bool mIsHighlited;
+
 
 };
 

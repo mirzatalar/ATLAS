@@ -1,42 +1,53 @@
-
 #ifndef PATHMODEL_H
 #define PATHMODEL_H
 
 #include <QAbstractListModel>
-#include <QTimer>
+#include <QObject>
 #include <QGeoCoordinate>
-#include <QGeoPath>
-#include <QVariantList>
+#include "path.h"
 
-
-class PathModel :  public QAbstractListModel
+namespace atlas::gui {
+class PathModel : public QAbstractListModel
 {
-    Q_OBJECT
-    Q_PROPERTY(QVariantList path READ path NOTIFY pathChanged)
-
 public:
-    enum MarkerRoles {
-        positionRole = Qt::UserRole + 1
-    };
 
     PathModel(QObject *parent = nullptr);
+    enum PathRoles
+    {
+        Id  = 0,
+        Color,
+        IsVisible,
+        Opacity,
+        IsHighlited,
+        Pth
 
+    };
 
-    void drawPath(int mId, std::vector <QGeoCoordinate> &points);
-    void addPosition(const QGeoCoordinate &coordinate);
-    int rowCount(const QModelIndex &parent = QModelIndex() ) const ;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const  ;
-    QVariantList path() const;
+    bool draw(int mId,const QList<QGeoCoordinate>& points,const QString& mColor);
+    bool move(int mId, const QGeoCoordinate& mCenter);
+    bool remove(int mId);
+    bool addPoint(int mId,const QGeoCoordinate& mNewPoint);
+    bool removePoint(int mId,const QGeoCoordinate& mDeletedPoint);
+    bool setHighlight(int mId, bool status);
+    bool setOpacity(int mId, double opacity);
+    bool setVisibility(int mId, bool status);
+    bool setColor(int mId, const QString& mColor);
+    bool isExist(int mId);
 
+    // QAbstracListModelInterface
+    int rowCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QHash<int, QByteArray> roleNames() const;
 
 private:
-    QHash<int, QByteArray> roleNames() const ;
-    QVariantList mData;;
-
-signals:
-    void pathChanged();
+    std::vector<Path> mData;
+    QHash<int, QByteArray> mRoleNames;
 
 };
+}
 #endif // PATHMODEL_H
+
+
+
 
 
