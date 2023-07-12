@@ -24,10 +24,13 @@ public:
     };
 
     bool draw(int mId,const QList<QGeoCoordinate>& points,const QString& mColor);
-    bool move(int mId, const QGeoCoordinate& mCenter);
     bool remove(int mId);
+
+    bool move(int mId, const QGeoCoordinate& mCenter);
+
     bool addPoint(int mId,const QGeoCoordinate& mNewPoint);
     bool removePoint(int mId,const QGeoCoordinate& mDeletedPoint);
+
     bool setHighlight(int mId, bool status);
     bool setOpacity(int mId, double opacity);
     bool setVisibility(int mId, bool status);

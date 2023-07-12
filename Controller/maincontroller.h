@@ -2,7 +2,9 @@
 #define MAINCONTROLLER_H
 
 #include <QObject>
+#include <QGeoCoordinate>
 #include <Controller/mapcontroller.h>
+#include <Controller/mapmouseactioncontroller.h>
 
 class QQmlApplicationEngine;
 
@@ -19,7 +21,12 @@ class  MapDrawer;
     private:
         MapController mMapController;
         MapDrawer*   mMapDrawer;
+        MapMouseActionController mMapMouseActionController;
+        QGeoCoordinate coor;
 
+
+    public slots:
+        void mouseSignalHandler(const QGeoCoordinate& coor);
 
     };
 }

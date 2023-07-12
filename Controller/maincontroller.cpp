@@ -4,6 +4,7 @@
 #include <QtPositioning>
 #include <iostream>
 #include <Controller/mapdrawer.h>
+#include <csignal>
 
 atlas::controller::MainController::MainController(QObject *parent):
     QObject(parent)
@@ -17,13 +18,14 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     //mapcontrol
     QQmlContext* ctx = engine->rootContext();
     ctx->setContextProperty("mapController",&mMapController);
+    ctx->setContextProperty("mapMouseActionController",&mMapMouseActionController);
 
 
     // mapcontrol tests
     QGeoCoordinate a;
     a.setLatitude(40);
     a.setLongitude(40);
-    mMapController.setZoomLevel(8);
+    mMapController.setZoomLevel(1);
     mMapController.setCenter(a);
     mMapController.setTilt(0);
     mMapController.setBearing(0);
@@ -54,8 +56,8 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
 
 //    mMapDrawer->drawLine(18,b,a,"red");
 //    mMapDrawer->drawLine(19,b,e,"black");
-//    mMapDrawer->drawCircle(25,b,"pink");
-//    mMapDrawer->drawCircle(26,a,"blue");
+//    mMapDrawer->drawCircle(25, mMapMouseActionController.tester,"pink");
+    mMapDrawer->drawCircle(26,a,"blue");
 
 //    mMapDrawer->setColor(18,"blue");
 //    mMapDrawer->setColor(25,"white");
@@ -103,7 +105,17 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     mMapDrawer->updatePath(5,1,e);
     mMapDrawer->updatePath(5,0,e);
 
+    QObject::connect(&mMapMouseActionController, &MapMouseActionController::posClickedL_signal, this, &MainController::mouseSignalHandler);
 
 
 
+
+
+
+}
+
+void atlas::controller::MainController::mouseSignalHandler(const QGeoCoordinate& coor){
+
+
+    mMapDrawer->drawCircle(21,coor,"red");
 }

@@ -12,6 +12,7 @@ SOURCES += \
     Controller/maincontroller.cpp \
     Controller/mapcontroller.cpp \
     Controller/mapdrawer.cpp \
+    Controller/mapmouseactioncontroller.cpp \
     GUI/models/Line.cpp \
     GUI/models/circle.cpp \
     GUI/models/circlemodel.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     Controller/maincontroller.h \
     Controller/mapcontroller.h \
     Controller/mapdrawer.h \
+    Controller/mapmouseactioncontroller.h \
     GUI/models/circle.h \
     GUI/models/circlemodel.h \
     GUI/models/line.h \

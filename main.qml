@@ -15,6 +15,9 @@ Window {
 
 
     Connections {
+        target: mapMouseActionController
+     }
+    Connections {
         target: mapController
      }
         Plugin{
@@ -33,6 +36,40 @@ Window {
                 zoomLevel: mapController.zoomLevel
                 tilt: mapController.tilt
                 bearing: mapController.bearing
+
+                MouseArea {
+                            hoverEnabled : true
+                            anchors.fill : parent
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
+                            onClicked: {
+                                if (mouse.button === Qt.RightButton)
+                                    mapMouseActionController.toCPPposClickedR(map1.toCoordinate(Qt.point(mouseX,mouseY)));
+                                else
+                                    mapMouseActionController.toCPPposClickedL(map1.toCoordinate(Qt.point(mouseX,mouseY)));
+
+                              }
+                              onDoubleClicked: {
+                                  //mapMouseActionController.toCPPposClickedD(map1.toCoordinate(Qt.point(mouseX,mouseY)));
+
+
+                            }
+                              onPositionChanged :{
+                                    mapMouseActionController.toCPPpos(map1.toCoordinate(Qt.point(mouseX,mouseY)));
+                              }
+                          }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 MapItemView {
                     model: lineModel

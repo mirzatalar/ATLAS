@@ -36,6 +36,8 @@ bool atlas::gui::CircleModel::draw(int mId,const QGeoCoordinate &mCenter, const 
 
     endInsertRows();
 
+    emit dataChanged(index(std::distance(mData.begin(), mData.end()), 0), index(std::distance(mData.begin(),  mData.end()), 0));
+
     return true;
 }
 
