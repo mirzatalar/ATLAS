@@ -26,7 +26,7 @@ class  MapDrawer;
         ActionController mActionController;
 
         bool leftClicked;
-        bool rightclicked;
+        bool rightclicked = 0;
         bool end = 1;
         bool start = 0;
         int option;

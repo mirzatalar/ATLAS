@@ -87,10 +87,10 @@ bool atlas::gui::LineModel::remove(int mId)
 
     auto itr = std::find_if(mData.begin(),mData.end(),isremoved);
 
-    beginRemoveRows(QModelIndex(), std::distance(mData.begin(), itr), std::distance(itr, mData.end()));
+    beginResetModel();
 
     mData.erase(itr,mData.end());
-    endRemoveRows();
+    endResetModel();
     return true;//sor
 }
 

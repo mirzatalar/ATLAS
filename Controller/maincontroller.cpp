@@ -119,7 +119,7 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
 
 void atlas::controller::MainController::setBeginLine(const QGeoCoordinate& coor){
 
-if(start == 1 && end==0){
+if(start == 1 && end==0 && rightclicked == 0){
         if(option == 1){
             int id = 1;
             while(mMapDrawer->isExist(id)){
@@ -138,8 +138,29 @@ if(start == 1 && end==0){
              start = 0;
              end = 0;
         }
+        rightclicked = 1;
+    }
+    else if(start == 0 && end==0 && rightclicked == 1){
+        if(option == 1){
+             int id = 1;
+             while(mMapDrawer->isExist(id)){
+                id++;
+             }
+             mMapDrawer->setEndLine(id-1,coor);
+             end = 1;
+             start = 0;
+        }
+        else  if(option == 2){
+             int id = 1;
+             while(mMapDrawer->isExist(id)){
+                id++;
+             }
+             mMapDrawer->setEndLineC(id-1,coor);
+             end = 1;
+             start = 0;
+        }
+        rightclicked = 0;
 }
-
 }
 
 void atlas::controller::MainController::setEndLine(const QGeoCoordinate& coor){
@@ -176,7 +197,7 @@ void atlas::controller::MainController::endDraw(const QGeoCoordinate& coor){
             while(mMapDrawer->isExist(id)){
                 id++;
             }
-            mMapDrawer->setEndLine(id-1,coor);
+            mMapDrawer->remove(id-1);
             end = 1;
             start = 0;
              }
@@ -185,11 +206,12 @@ void atlas::controller::MainController::endDraw(const QGeoCoordinate& coor){
             while(mMapDrawer->isExist(id)){
                 id++;
             }
-            mMapDrawer->setEndLineC(id-1,coor);
+            mMapDrawer->remove(id-1);
             end = 1;
             start = 0;
         }
          }
+    rightclicked = 0;
     }
 
 
