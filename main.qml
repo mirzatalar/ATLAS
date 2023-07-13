@@ -20,6 +20,9 @@ Window {
     Connections {
         target: mapController
      }
+    Connections {
+        target: actionController
+     }
         Plugin{
             id: gsat
             name: "osm"
@@ -49,7 +52,7 @@ Window {
 
                               }
                               onDoubleClicked: {
-                                  //mapMouseActionController.toCPPposClickedD(map1.toCoordinate(Qt.point(mouseX,mouseY)));
+                                  actionController.toCPPposClickedD(map1.toCoordinate(Qt.point(mouseX,mouseY)));
 
 
                             }
@@ -59,6 +62,12 @@ Window {
                           }
 
 
+                Button{
+                   id:line
+                   text: "Draw Line"
+                   onClicked: actionController.startDrawLinetoAC();
+
+                }
 
 
 

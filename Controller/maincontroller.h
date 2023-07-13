@@ -5,6 +5,7 @@
 #include <QGeoCoordinate>
 #include <Controller/mapcontroller.h>
 #include <Controller/mapmouseactioncontroller.h>
+#include <Controller/actioncontroller.h>
 
 class QQmlApplicationEngine;
 
@@ -22,11 +23,20 @@ class  MapDrawer;
         MapController mMapController;
         MapDrawer*   mMapDrawer;
         MapMouseActionController mMapMouseActionController;
-        QGeoCoordinate coor;
+        ActionController mActionController;
+
+        bool leftClicked;
+        bool rightclicked;
+        bool end = 1;
+        bool start = 0;
+
 
 
     public slots:
-        void mouseSignalHandler(const QGeoCoordinate& coor);
+        void initialLine();
+        void endDraw(const QGeoCoordinate& coor);
+        void setBeginLine(const QGeoCoordinate& coor);
+        void setEndLine(const QGeoCoordinate& coor);
 
     };
 }

@@ -19,7 +19,8 @@ atlas::gui::CircleModel::CircleModel(QObject *parent)
 bool atlas::gui::CircleModel::draw(int mId,const QGeoCoordinate &mCenter, const QString &mColor)
 {
 
-    beginInsertRows(QModelIndex(), 0, 0);
+    beginResetModel();//todo
+
 
 
     Circle newCircle(mId,mCenter, mColor);
@@ -34,9 +35,11 @@ bool atlas::gui::CircleModel::draw(int mId,const QGeoCoordinate &mCenter, const 
 
     std::cout << "Circle " << newCircle.mId << " has been added" << std::endl;
 
-    endInsertRows();
 
-    emit dataChanged(index(std::distance(mData.begin(), mData.end()), 0), index(std::distance(mData.begin(),  mData.end()), 0));
+    endResetModel();
+
+
+
 
     return true;
 }

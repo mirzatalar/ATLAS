@@ -35,6 +35,9 @@ namespace atlas::gui {
         bool setColor(int mId, const QString& mColor);
         bool isExist(int mId);
 
+        bool setEndLine(int mId,const QGeoCoordinate &coordinate2);
+        bool setBeginLine(int mId,const QGeoCoordinate &coordinate1);
+
         // QAbstracListModelInterface
         int rowCount(const QModelIndex &parent) const;
         QVariant data(const QModelIndex &index, int role) const;

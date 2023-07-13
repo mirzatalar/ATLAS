@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Controller/actioncontroller.cpp \
     Controller/maincontroller.cpp \
     Controller/mapcontroller.cpp \
     Controller/mapdrawer.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    Controller/actioncontroller.h \
     Controller/maincontroller.h \
     Controller/mapcontroller.h \
     Controller/mapdrawer.h \

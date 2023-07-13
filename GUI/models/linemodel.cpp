@@ -21,7 +21,7 @@ atlas::gui::LineModel::LineModel(QObject *parent)
 bool atlas::gui::LineModel::draw(int mId,const QGeoCoordinate &mcoordinate1, const QGeoCoordinate &mcoordinate2, const QString &mColor)
 {
 
-    beginInsertRows(QModelIndex(), 0, 0);
+    beginResetModel();
 
 
     Line newLine(mId,mcoordinate1, mcoordinate2, mColor);
@@ -34,9 +34,9 @@ bool atlas::gui::LineModel::draw(int mId,const QGeoCoordinate &mcoordinate1, con
 
     qDebug()<<"Model: "<<mColor;
 
-    std::cout << "Line " << newLine.mId << " has been added" << std::endl;
+    qDebug()<< "Line " << newLine.mId << " has been adde d" << mcoordinate1 << " " << mcoordinate2;
 
-    endInsertRows();
+    endResetModel();
 
     return true;
 }
@@ -165,9 +165,44 @@ bool atlas::gui::LineModel::isExist(int mId)
 
 
 
+bool atlas::gui::LineModel::setEndLine(int mId,const QGeoCoordinate &coordinate2){
+
+    auto returned = [mId](const Line& line){return line.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {Latitude2, Longitude2};
+        it->mCoordinate2 = coordinate2;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+        //qDebug() << "end line updated :: "<< coordinate2;
+        return true;
+    }
+
+
+}
 
 
 
+
+bool atlas::gui::LineModel::setBeginLine(int mId,const QGeoCoordinate &coordinate2){
+
+    auto returned = [mId](const Line& line){return line.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {Latitude1, Longitude1};
+        it->mCoordinate1 = coordinate2;
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+        //qDebug() << "end line updated :: "<< coordinate2;
+        return true;
+    }
+
+
+}
 
 
 

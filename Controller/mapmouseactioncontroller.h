@@ -21,6 +21,7 @@ namespace  atlas :: controller
         void posClickedR_signal(const QGeoCoordinate &mCoordinate);
         void posClickedL_signal(const QGeoCoordinate &mCoordinate);
         void posClickedD_signal(const QGeoCoordinate &mCoordinate);
+        void startDrawLine_signal(const QGeoCoordinate &coordinate1);
 
 
     public slots :

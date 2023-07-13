@@ -5,6 +5,7 @@
 #include <iostream>
 #include <Controller/mapdrawer.h>
 #include <csignal>
+#include <QtPositioning>
 
 atlas::controller::MainController::MainController(QObject *parent):
     QObject(parent)
@@ -19,13 +20,14 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     QQmlContext* ctx = engine->rootContext();
     ctx->setContextProperty("mapController",&mMapController);
     ctx->setContextProperty("mapMouseActionController",&mMapMouseActionController);
+    ctx->setContextProperty("actionController",&mActionController);
 
 
     // mapcontrol tests
     QGeoCoordinate a;
     a.setLatitude(40);
     a.setLongitude(40);
-    mMapController.setZoomLevel(1);
+    mMapController.setZoomLevel(8);
     mMapController.setCenter(a);
     mMapController.setTilt(0);
     mMapController.setBearing(0);
@@ -54,10 +56,11 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     f.setLongitude(39);
 
 
-//    mMapDrawer->drawLine(18,b,a,"red");
+ mMapDrawer->drawLine(18,b,a,"red");
 //    mMapDrawer->drawLine(19,b,e,"black");
 //    mMapDrawer->drawCircle(25, mMapMouseActionController.tester,"pink");
-    mMapDrawer->drawCircle(26,a,"blue");
+        mMapDrawer->drawCircle(26,a,"blue");
+        mMapDrawer->drawCircle(26,b,"red");
 
 //    mMapDrawer->setColor(18,"blue");
 //    mMapDrawer->setColor(25,"white");
@@ -100,22 +103,75 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
 
 
 
-    mMapDrawer->drawPath(5,qvl,"darkblue");
-    mMapDrawer->drawPath(6,qvl1,"red");
-    mMapDrawer->updatePath(5,1,e);
-    mMapDrawer->updatePath(5,0,e);
+    //    mMapDrawer->drawPath(5,qvl,"darkblue");
+    //    mMapDrawer->drawPath(6,qvl1,"red");
+    //    mMapDrawer->updatePath(5,1,e);
+    //    mMapDrawer->updatePath(5,0,e);
 
-    QObject::connect(&mMapMouseActionController, &MapMouseActionController::posClickedL_signal, this, &MainController::mouseSignalHandler);
-
-
-
+    QObject::connect(&mMapMouseActionController, &MapMouseActionController::posClickedL_signal, this, &MainController::setBeginLine);
+    QObject::connect(&mMapMouseActionController, &MapMouseActionController::posClickedR_signal, this, &MainController::endDraw);
+    QObject::connect(&mMapMouseActionController, &MapMouseActionController::pos_signal, this, &MainController::setEndLine);
+    QObject::connect(&mActionController, &ActionController::startDrawLine_signal, this, &MainController::initialLine);
 
 
 
 }
 
-void atlas::controller::MainController::mouseSignalHandler(const QGeoCoordinate& coor){
+void atlas::controller::MainController::setBeginLine(const QGeoCoordinate& coor){
+
+if(start == 1 && end==0){
+    int id = 1;
+    while(mMapDrawer->isExist(id)){
+        id++;
+    }
+    mMapDrawer->drawLine(id,coor,coor,"red");
+    start = 0;
+     end = 0;
+
+}
+
+}
+
+void atlas::controller::MainController::setEndLine(const QGeoCoordinate& coor){
+
+    if(start == 0 && end == 0){
+        int id = 1;
+        while(mMapDrawer->isExist(id)){
+            id++;
+
+        }
+        //qDebug() << id;
+        mMapDrawer->setEndLine(id - 1,coor);
+    }
+
+}
+
+void atlas::controller::MainController::initialLine(){
+
+     if(start == 0 && end == 1){
+    int id = 1;
+    while(mMapDrawer->isExist(id)){
+        id++;
+    }
 
 
-    mMapDrawer->drawCircle(21,coor,"red");
+    start = 1;
+    end = 0;
+     }
+}
+
+void atlas::controller::MainController::endDraw(const QGeoCoordinate& coor){
+
+    if(start == 0 && end==0){
+        int id = 1;
+        while(mMapDrawer->isExist(id)){
+            id++;
+        }
+        mMapDrawer->setEndLine(id-1,coor);
+        end = 1;
+        start = 0;
+    }
+
+
+
 }

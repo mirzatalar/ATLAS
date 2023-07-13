@@ -21,6 +21,8 @@ namespace  atlas :: controller
 
 
         bool drawLine(int mId,const QGeoCoordinate &coordinate1,const QGeoCoordinate &coordinate2,const QString &mColor);
+        bool setEndLine(int mId,const QGeoCoordinate &coordinate2);
+        bool setBeginLine(int mId,const QGeoCoordinate &coordinate1);
         bool drawCircle(int mId,const QGeoCoordinate &mCenter,const QString &mColor);
         bool drawPath(int mId,const QList<QGeoCoordinate>& points,const QString& mColor);
         bool updatePath(int mId, bool request,const QGeoCoordinate &coordinate);
@@ -34,7 +36,7 @@ namespace  atlas :: controller
         bool setVisibility(int mId, bool status);
         bool setOpacity(int mId, double mOpacity);
         bool setColor(int mId,const QString &mColor);
-
+        bool isExist(int mId);
 
 
     private:

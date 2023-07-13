@@ -100,6 +100,15 @@ bool atlas::controller::MapDrawer::updatePath(int mId, bool request,const QGeoCo
 
 //SETTERS
 
+bool atlas::controller::MapDrawer::setEndLine(int mId,const QGeoCoordinate &coordinate2){
+    return  mLineModel.setEndLine(mId,coordinate2);
+}
+
+bool atlas::controller::MapDrawer::setBeginLine(int mId,const QGeoCoordinate &coordinate2){
+    return  mLineModel.setBeginLine(mId,coordinate2);
+}
+
+
 bool atlas::controller::MapDrawer::setHighlight(int mId, bool status)
 {
 
@@ -179,4 +188,20 @@ bool atlas::controller::MapDrawer::setColor(int mId, const QString& mColor){
 }
 
 
+bool atlas::controller::MapDrawer::isExist(int mId){
+     if(mCircleModel.isExist(mId) == true){
+         return  1;
+     }
+
+     else if(mLineModel.isExist(mId) == true){
+         return  1;
+     }
+     else if(mPathModel.isExist(mId) == true){
+         return  1;
+     }
+
+     else{
+         return false;
+     }
+}
 
