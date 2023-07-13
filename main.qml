@@ -63,11 +63,25 @@ Window {
 
 
                 Button{
-                   id:line
+                   id:linee
                    text: "Draw Line"
-                   onClicked: actionController.startDrawLinetoAC();
+                   onClicked: actionController.startDrawOptiontoAC(1);
 
                 }
+                Button{
+
+                   id:circle
+                   y: linee.height
+                   text: "Draw Circle"
+                   onClicked: actionController.startDrawOptiontoAC(2);
+
+                }
+
+
+
+
+
+
 
 
 
@@ -122,7 +136,7 @@ Window {
                         MapCircle{
                             id:crcl
                             color:clr
-                            radius: 5000
+                            radius: rds
                             opacity: oppacity
                             center: QtPositioning.coordinate(latitude, longitude)
 

@@ -8,13 +8,16 @@ class Circle
 public:
     Circle();
 
-    Circle(int mId, QGeoCoordinate mCenter, QString mColor);
+    Circle(int mId, QGeoCoordinate mCenter,QGeoCoordinate mCircumCoor, QString mColor);
     int mId;
     QString mColor;
     bool mIsVisible;
     double mOpacity;
     bool mIsHighlited;
+    int radius;
     QGeoCoordinate mCenter;
+    QGeoCoordinate mCircumCoor;
+
 };
 
 #endif // CIRCLE_H

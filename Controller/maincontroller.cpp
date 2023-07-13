@@ -56,11 +56,11 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     f.setLongitude(39);
 
 
- mMapDrawer->drawLine(18,b,a,"red");
+ //mMapDrawer->drawLine(18,b,a,"red");
 //    mMapDrawer->drawLine(19,b,e,"black");
 //    mMapDrawer->drawCircle(25, mMapMouseActionController.tester,"pink");
-        mMapDrawer->drawCircle(26,a,"blue");
-        mMapDrawer->drawCircle(26,b,"red");
+//        mMapDrawer->drawCircle(26,a,b,"blue");
+//        mMapDrawer->drawCircle(26,e,f,"red");
 
 //    mMapDrawer->setColor(18,"blue");
 //    mMapDrawer->setColor(25,"white");
@@ -111,7 +111,7 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     QObject::connect(&mMapMouseActionController, &MapMouseActionController::posClickedL_signal, this, &MainController::setBeginLine);
     QObject::connect(&mMapMouseActionController, &MapMouseActionController::posClickedR_signal, this, &MainController::endDraw);
     QObject::connect(&mMapMouseActionController, &MapMouseActionController::pos_signal, this, &MainController::setEndLine);
-    QObject::connect(&mActionController, &ActionController::startDrawLine_signal, this, &MainController::initialLine);
+    QObject::connect(&mActionController, &ActionController::startDraw_signal, this, &MainController::startDraw);
 
 
 
@@ -120,14 +120,24 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
 void atlas::controller::MainController::setBeginLine(const QGeoCoordinate& coor){
 
 if(start == 1 && end==0){
-    int id = 1;
-    while(mMapDrawer->isExist(id)){
-        id++;
-    }
-    mMapDrawer->drawLine(id,coor,coor,"red");
-    start = 0;
-     end = 0;
-
+        if(option == 1){
+            int id = 1;
+            while(mMapDrawer->isExist(id)){
+                id++;
+            }
+            mMapDrawer->drawLine(id,coor,coor,"red");
+            start = 0;
+             end = 0;
+        }
+        else if(option == 2){
+             int id = 1;
+             while(mMapDrawer->isExist(id)){
+                id++;
+             }
+             mMapDrawer->drawCircle(id,coor,coor,"red");
+             start = 0;
+             end = 0;
+        }
 }
 
 }
@@ -135,43 +145,62 @@ if(start == 1 && end==0){
 void atlas::controller::MainController::setEndLine(const QGeoCoordinate& coor){
 
     if(start == 0 && end == 0){
-        int id = 1;
-        while(mMapDrawer->isExist(id)){
-            id++;
+        if(option == 1){
+            int id = 1;
+            while(mMapDrawer->isExist(id)){
+                id++;
 
+            }
+            //qDebug() << id;
+            mMapDrawer->setEndLine(id - 1,coor);
         }
-        //qDebug() << id;
-        mMapDrawer->setEndLine(id - 1,coor);
+        else if(option == 2){
+            int id = 1;
+            while(mMapDrawer->isExist(id)){
+                id++;
+
+            }
+            //qDebug() << id;
+            mMapDrawer->setEndLineC(id - 1,coor);
+        }
     }
 
 }
 
-void atlas::controller::MainController::initialLine(){
-
-     if(start == 0 && end == 1){
-    int id = 1;
-    while(mMapDrawer->isExist(id)){
-        id++;
-    }
-
-
-    start = 1;
-    end = 0;
-     }
-}
 
 void atlas::controller::MainController::endDraw(const QGeoCoordinate& coor){
 
     if(start == 0 && end==0){
-        int id = 1;
-        while(mMapDrawer->isExist(id)){
-            id++;
+        if(option == 1){
+            int id = 1;
+            while(mMapDrawer->isExist(id)){
+                id++;
+            }
+            mMapDrawer->setEndLine(id-1,coor);
+            end = 1;
+            start = 0;
+             }
+         else  if(option == 2){
+            int id = 1;
+            while(mMapDrawer->isExist(id)){
+                id++;
+            }
+            mMapDrawer->setEndLineC(id-1,coor);
+            end = 1;
+            start = 0;
         }
-        mMapDrawer->setEndLine(id-1,coor);
-        end = 1;
-        start = 0;
+         }
     }
 
 
 
+
+
+
+void atlas::controller::MainController::startDraw(int opt){
+    option = opt;
+    if(start == 0 && end == 1){
+        start = 1;
+        end = 0;
+    }
 }

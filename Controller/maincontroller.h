@@ -29,6 +29,7 @@ class  MapDrawer;
         bool rightclicked;
         bool end = 1;
         bool start = 0;
+        int option;
 
 
 
@@ -37,6 +38,7 @@ class  MapDrawer;
         void endDraw(const QGeoCoordinate& coor);
         void setBeginLine(const QGeoCoordinate& coor);
         void setEndLine(const QGeoCoordinate& coor);
+        void startDraw(int opt);
 
     };
 }

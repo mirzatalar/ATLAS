@@ -20,12 +20,14 @@ public:
         Color,
         Opacity,
         IsVisible,
-        IsHighlited
+        IsHighlited,
+        Radius
 
     };
 
-    bool draw(int mId, const QGeoCoordinate& mCenter,const QString& mColor);
+    bool draw(int mId, const QGeoCoordinate& mCenter,const QGeoCoordinate &mCircumCoor, const QString& mColor);
     bool move(int mId, const QGeoCoordinate& mPos);
+    bool setCircumf(int mId, const QGeoCoordinate& mCircumCoor);
     bool remove(int mId);
     bool setHighlight(int mId, bool status);
     bool setOpacity(int mId, double opacity);

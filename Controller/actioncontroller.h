@@ -19,10 +19,11 @@ namespace atlas::controller{
 
 
     signals:
-           void startDrawLine_signal();
+           void startDraw_signal(int opt);
+
 
     public slots :
-            void startDrawLinetoAC();
+            void startDrawOptiontoAC(int opt);
 
     };
 }

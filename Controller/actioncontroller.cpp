@@ -11,9 +11,10 @@ void atlas::controller::ActionController::ActionHandler()
 
 }
 
-void atlas::controller::ActionController::startDrawLinetoAC()
+void atlas::controller::ActionController::startDrawOptiontoAC(int opt)
 {
 
-    qDebug() << "AC WORKING";
-    emit startDrawLine_signal();
+        emit startDraw_signal(opt);
+
+
 }

@@ -14,19 +14,21 @@ atlas::gui::CircleModel::CircleModel(QObject *parent)
     mRoleNames[IsHighlited] = "ishighlited";
     mRoleNames[IsVisible] = "isvisible";
     mRoleNames[Opacity] = "oppacity";
+    mRoleNames[Radius] = "rds";
 }
 
-bool atlas::gui::CircleModel::draw(int mId,const QGeoCoordinate &mCenter, const QString &mColor)
+bool atlas::gui::CircleModel::draw(int mId,const QGeoCoordinate &mCenter, const QGeoCoordinate &mCircumCoor, const QString &mColor)
 {
 
     beginResetModel();//todo
 
 
 
-    Circle newCircle(mId,mCenter, mColor);
+    Circle newCircle(mId,mCenter,mCircumCoor, mColor);
     newCircle.mIsVisible = 1;
     newCircle.mIsHighlited = 0;
-    newCircle.mOpacity = 1;
+    newCircle.mOpacity = 0.5;
+    newCircle.radius = mCenter.distanceTo(mCircumCoor);
 
     mData.push_back(newCircle);
 
@@ -67,7 +69,25 @@ bool atlas::gui::CircleModel::move(int mId, const QGeoCoordinate &newCoordinate)
     return false;
 }
 
+bool atlas::gui::CircleModel::setCircumf(int mId, const QGeoCoordinate &newCoordinate)
+{
+    auto returned = [mId](const Circle& circle){return circle.mId == mId;};
 
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+        QVector<int> roles = {Radius};
+
+
+        it->radius = it->mCenter.distanceTo(newCoordinate);
+
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+    }
+
+    return false;
+}
 
 bool atlas::gui::CircleModel::remove(int mId)
 {
@@ -195,6 +215,8 @@ QVariant atlas::gui::CircleModel::data(const QModelIndex &index, int role) const
         return Circle.mCenter.latitude();
     case Longitude:
         return Circle.mCenter.longitude();
+    case Radius:
+        return Circle.radius;
     case Color:
 
         if( Circle.mIsHighlited == 1){

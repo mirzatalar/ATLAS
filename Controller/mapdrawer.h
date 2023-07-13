@@ -22,8 +22,9 @@ namespace  atlas :: controller
 
         bool drawLine(int mId,const QGeoCoordinate &coordinate1,const QGeoCoordinate &coordinate2,const QString &mColor);
         bool setEndLine(int mId,const QGeoCoordinate &coordinate2);
+        bool setEndLineC(int mId,const QGeoCoordinate &coordinate2);
         bool setBeginLine(int mId,const QGeoCoordinate &coordinate1);
-        bool drawCircle(int mId,const QGeoCoordinate &mCenter,const QString &mColor);
+        bool drawCircle(int mId,const QGeoCoordinate &mCenter,const QGeoCoordinate &mCircumCoor,const QString &mColor);
         bool drawPath(int mId,const QList<QGeoCoordinate>& points,const QString& mColor);
         bool updatePath(int mId, bool request,const QGeoCoordinate &coordinate);
 

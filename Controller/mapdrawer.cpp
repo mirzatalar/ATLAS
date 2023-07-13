@@ -27,10 +27,10 @@ bool atlas::controller::MapDrawer::drawLine(int mId, const QGeoCoordinate &coord
     return mLineModel.draw( mId, coordinate1, coordinate2, mColor);
 }
 
-bool atlas::controller::MapDrawer::drawCircle(int mId, const QGeoCoordinate &mCenter,const QString& mColor)
+bool atlas::controller::MapDrawer::drawCircle(int mId, const QGeoCoordinate &mCenter,const QGeoCoordinate &mCircumCoor,const QString& mColor)
 {
     // Some controlss
-    return mCircleModel.draw( mId, mCenter, mColor);
+    return mCircleModel.draw( mId, mCenter,mCircumCoor, mColor);
 }
 
 bool atlas::controller::MapDrawer::drawPath(int mId,const QList<QGeoCoordinate>& points,const QString& mColor)
@@ -103,6 +103,11 @@ bool atlas::controller::MapDrawer::updatePath(int mId, bool request,const QGeoCo
 bool atlas::controller::MapDrawer::setEndLine(int mId,const QGeoCoordinate &coordinate2){
     return  mLineModel.setEndLine(mId,coordinate2);
 }
+
+bool atlas::controller::MapDrawer::setEndLineC(int mId,const QGeoCoordinate &coordinate2){
+    return  mCircleModel.setCircumf(mId,coordinate2);
+}
+
 
 bool atlas::controller::MapDrawer::setBeginLine(int mId,const QGeoCoordinate &coordinate2){
     return  mLineModel.setBeginLine(mId,coordinate2);
