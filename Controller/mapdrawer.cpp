@@ -295,3 +295,13 @@ void atlas::controller::MapDrawer::clearGrid()
      mGridModel.clear();
 }
 
+void atlas::controller::MapDrawer::deleteAll(int count)
+{
+     for (int i = 1; i <= count; ++i) {
+         if(mCircleModel.isHighlighted(i) == true){
+            mCircleModel.remove(i);
+         }
+
+     }
+}
+

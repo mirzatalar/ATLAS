@@ -133,16 +133,21 @@ void atlas::controller::MainController::LeftClicked(const QGeoCoordinate& coor){
 
 
 
-
-if(option == 4){
+     if(option == 4){
         QGeoCoordinate x = mMapDrawer->midPoint();
 
 
-    mMapDrawer->moveAll(itemCount,coor, x);
-    for (int i = 1; i <= itemCount; ++i) {
-        mMapDrawer->setHighlight(i,0);
+        mMapDrawer->moveAll(itemCount,coor, x);
+        for (int i = 1; i <= itemCount; ++i) {
+            mMapDrawer->setHighlight(i,0);
+        }
+        start = 0;
+        end = 1;
+        QGuiApplication::restoreOverrideCursor();
+        option = 0;
+
     }
-}
+
 
 if( option == 7){
     QGuiApplication::restoreOverrideCursor();
@@ -185,6 +190,7 @@ QGuiApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
              end = 0;
         }
 
+
         rightclicked = 1;
 
     }
@@ -211,6 +217,13 @@ QGuiApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
              end = 1;
              start = 0;
         }
+        else  if(option == 4){
+
+             end = 1;
+             start = 0;
+        }
+
+
 
         rightclicked = 0;
 }
@@ -238,6 +251,13 @@ void atlas::controller::MainController::Position(const QGeoCoordinate& coor){
             mMapDrawer->setEndLineR(coor);
         }
 
+
+    }
+    if(option == 4){
+        QGeoCoordinate x = mMapDrawer->midPoint();
+
+
+        mMapDrawer->moveAll(itemCount,coor, x);
 
     }
 
@@ -295,6 +315,11 @@ void atlas::controller::MainController::StartAction(int opt){
     {
        QGuiApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     }
+
+    if(option ==8){
+       mMapDrawer->deleteAll(itemCount);
+    }
+
 
 }
 

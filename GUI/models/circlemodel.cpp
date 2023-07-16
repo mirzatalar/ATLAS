@@ -33,9 +33,6 @@ bool atlas::gui::CircleModel::draw(int mId,const QGeoCoordinate &mCenter, const 
 
     mData.push_back(newCircle);
 
-
-    qDebug()<<"Model: "<<mColor;
-
     std::cout << "Circle " << newCircle.mId << " has been added" << std::endl;
 
 
@@ -103,7 +100,7 @@ bool atlas::gui::CircleModel::remove(int mId)
 
     beginResetModel();
 
-    mData.erase(itr,mData.end());
+    mData.erase(itr,itr+1);
     endResetModel();
 
 

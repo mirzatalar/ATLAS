@@ -6,6 +6,7 @@ import QtPositioning 5.12
 import QtQml 2.12
 
 
+
 Window {
     id: window
     width: 1240
@@ -101,7 +102,23 @@ Window {
                   radius:5
                   palette.buttonText: "white"
                   palette.button: qmlColor
-                  z:5
+                  z:53
+                  ToolTip {
+                        y:50
+                        delay: 750
+                        visible: utilities.hovered
+                        contentItem: Text {
+                        text: "Draw"
+
+                        color:"white"}
+
+                         background: Rectangle {
+                                 color: "black"
+                                 border.color:qmlColor
+                                 border.width: 3
+                                 opacity: 0.5
+                             }
+                     }
                }
 
                 RoundButton{
@@ -117,6 +134,22 @@ Window {
                   palette.buttonText: "white"
                   palette.button: qmlColor
                   z:5
+                  ToolTip {
+                        y:50
+                        delay: 750
+                        visible: grid.hovered
+                        contentItem: Text {
+                        text: "Grid"
+
+                        color:"white"}
+
+                         background: Rectangle {
+                                 color: "black"
+                                 border.color:qmlColor
+                                 border.width: 3
+                                 opacity: 0.5
+                             }
+                     }
                }
 
                 Menu{
@@ -171,7 +204,27 @@ Window {
                   palette.buttonText: "white"
                   palette.button: qmlColor
                   z:5
+                  ToolTip {
+                        y:50
+                        delay: 750
+                        visible: move.hovered
+                        contentItem: Text {
+                        text: "Move"
+
+                        color:"white"}
+
+                         background: Rectangle {
+                                 color: "black"
+                                 border.color:qmlColor
+                                 border.width: 3
+                                 opacity: 0.5
+                             }
+                     }
+
+
+
                }
+
 
                 RoundButton{
                   id:choose
@@ -186,6 +239,23 @@ Window {
                   palette.buttonText: "white"
                   palette.button: qmlColor
                   z:5
+                  ToolTip {
+                        y:50
+                        delay: 750
+                        visible: choose.hovered
+                        contentItem: Text {
+                        text: "Select"
+
+                        color:"white"}
+
+                         background: Rectangle {
+                                 color: "black"
+                                 border.color:qmlColor
+                                 border.width: 3
+                                 opacity: 0.5
+                             }
+                     }
+
                }
 
                 RoundButton{
@@ -201,6 +271,53 @@ Window {
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
+                   ToolTip {
+                         y:50
+                         delay: 750
+                         visible: colour.hovered
+                         contentItem: Text {
+                         text: "Change\nColor"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
+                }
+
+                RoundButton{
+                   id:del
+                   anchors.right: grid.left
+                   anchors.rightMargin: 10
+                   radius:5
+                   y:10
+                   icon.source: "qrc:/icons/delete.png"
+                   height: 40
+                   width:40
+                   onClicked:actionController.startDrawOptiontoAC(8)
+                   palette.buttonText: "white"
+                   palette.button: qmlColor
+                   z:5
+                   ToolTip {
+                         y:50
+                         delay: 750
+                         visible: del.hovered
+                         contentItem: Text {
+                         text: "Delete"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
                 }
 
                 Menu {
@@ -294,6 +411,23 @@ Window {
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
+                   ToolTip {
+                         x:-60
+                         y:5
+                         delay: 750
+                         visible: zooma.hovered
+                         contentItem: Text {
+                         text: "Zoom In"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
                 }
 
                 RoundButton{
@@ -310,6 +444,23 @@ Window {
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
+                   ToolTip {
+                         x:-70
+                         y:5
+                         delay: 750
+                         visible: zomme.hovered
+                         contentItem: Text {
+                         text: "Zoom Out"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
                 }
 
 
@@ -328,6 +479,23 @@ Window {
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
+                   ToolTip {
+                         x:-70
+                         y:5
+                         delay: 750
+                         visible: brge.hovered
+                         contentItem: Text {
+                         text: "Bearing+"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
                 }
 
                 RoundButton{
@@ -344,6 +512,23 @@ Window {
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
+                   ToolTip {
+                         x:-65
+                         y:5
+                         delay: 750
+                         visible: brga.hovered
+                         contentItem: Text {
+                         text: "Bearing-"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
                 }
 
                 RoundButton{
@@ -360,6 +545,23 @@ Window {
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
+                   ToolTip {
+                         x:-45
+                         y:5
+                         delay: 750
+                         visible: tlte.hovered
+                         contentItem: Text {
+                         text: "Tilt-"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
                 }
 
                 RoundButton{
@@ -376,6 +578,23 @@ Window {
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
+                   ToolTip {
+                         x:-45
+                         y:5
+                         delay: 750
+                         visible: tlta.hovered
+                         contentItem: Text {
+                         text: "Tilt+"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
                 }
 
                 RoundButton{
@@ -392,6 +611,23 @@ Window {
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
+                   ToolTip {
+                         x:-75
+                         y:5
+                         delay: 750
+                         visible: setCenter.hovered
+                         contentItem: Text {
+                         text: "Set Center"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
                 }
 
                 RoundButton{
@@ -408,6 +644,23 @@ Window {
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
+                   ToolTip {
+                         x:-85
+                         y:5
+                         delay: 750
+                         visible: gotocenter.hovered
+                         contentItem: Text {
+                         text: "Go to Center"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
                 }
 
                 MapItemView {
@@ -599,10 +852,7 @@ Window {
 
             }
 
-            Rectangle{
-                x:500
-                y:500
-                height:500
-                width:500
-            }
+
+
+
 }

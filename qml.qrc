@@ -51,5 +51,6 @@
         <file>icons/grid.png</file>
         <file>icons/goto.png</file>
         <file>icons/setcenter.png</file>
+        <file>icons/delete.png</file>
     </qresource>
 </RCC>

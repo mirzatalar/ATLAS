@@ -47,6 +47,7 @@ namespace  atlas :: controller
         bool isExist(int mId);
         bool createGrid( const QGeoRectangle &rec);
         void clearGrid( );
+        void deleteAll(int count);
 
         bool setHighlightAll(int count,const QGeoCoordinate &m1, const QGeoCoordinate &m2);
         QGeoCoordinate midPoint();
