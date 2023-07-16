@@ -75,13 +75,14 @@ bool atlas::gui::PathModel::addPoint(int mId, const QGeoCoordinate& mNewPoint){
 
     if(it != mData.end()){
         QVector<int> roles = {Pth};
+        beginResetModel();
 
 
         it->mPoints.push_back(mNewPoint);
 
 
-        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
-
+        //emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+        endResetModel();
         return true;
     }
 
@@ -114,15 +115,15 @@ bool atlas::gui::PathModel::removePoint(int mId, const QGeoCoordinate& mDeletedP
 
 bool atlas::gui::PathModel::remove(int mId)
 {
-
+    qDebug() << "path silindi";
     auto isremoved = [mId](const Path& path){return path.mId == mId;};
 
     auto itr = std::find_if(mData.begin(),mData.end(),isremoved);
 
-    beginRemoveRows(QModelIndex(), std::distance(mData.begin(), itr), std::distance(itr, mData.end()));
+    beginResetModel();
 
     mData.erase(itr,mData.end());
-    endRemoveRows();
+    endResetModel();
     return true;//sor
 }
 
@@ -135,8 +136,10 @@ bool  atlas::gui::PathModel::setHighlight(int mId, bool status){
     if(it != mData.end()){
 
         QVector<int> roles = {IsHighlited};
+        beginResetModel();
         it->mIsHighlited = status;
-        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+        //emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+        endResetModel();
 
         return true;
     }

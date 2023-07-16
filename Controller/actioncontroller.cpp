@@ -18,3 +18,32 @@ void atlas::controller::ActionController::startDrawOptiontoAC(int opt)
 
 
 }
+
+void atlas::controller::ActionController::colorPicker(const QString &clr)
+{
+
+        emit color_signal(clr);
+
+
+}
+
+void atlas::controller::ActionController:: highlight(int Id){
+
+    emit highlight_signal(Id);
+}
+void atlas::controller::ActionController:: zoom(int zoomLevel){
+
+    emit zoom_signal(zoomLevel);
+}
+
+void atlas::controller::ActionController:: bearing(int brg){
+
+    emit bearing_signal(brg);
+}
+
+
+void atlas::controller::ActionController:: tilt(int tlt){
+
+    emit tilt_signal(tlt);
+}
+

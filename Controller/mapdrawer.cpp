@@ -15,6 +15,10 @@ atlas::controller::MapDrawer::MapDrawer(QObject *parent, QQmlApplicationEngine *
     engine->rootContext()->setContextProperty("pathModel",  &mPathModel);
     qmlRegisterType<atlas::gui::LineModel>("com.bitessavunma.circlemodel", 1, 0, "CircleModel");
     engine->rootContext()->setContextProperty("circleModel",  &mCircleModel);
+    qmlRegisterType<atlas::gui::LineModel>("com.bitessavunma.rectanglemodel", 1, 0, "RectangleModel");
+    engine->rootContext()->setContextProperty("rectangleModel",  &mRectangleModel);
+    qmlRegisterType<atlas::gui::LineModel>("com.bitessavunma.gridmodel", 1, 0, "GridModel");
+    engine->rootContext()->setContextProperty("gridModel",  &mGridModel);
 }
 
 
@@ -25,6 +29,11 @@ bool atlas::controller::MapDrawer::drawLine(int mId, const QGeoCoordinate &coord
 {
     // Some controlss
     return mLineModel.draw( mId, coordinate1, coordinate2, mColor);
+}
+bool atlas::controller::MapDrawer::drawRectangle(const QGeoCoordinate &coordinate1,const QGeoCoordinate &coordinate2)
+{
+    // Some controlss
+    return mRectangleModel.draw( coordinate1, coordinate2);
 }
 
 bool atlas::controller::MapDrawer::drawCircle(int mId, const QGeoCoordinate &mCenter,const QGeoCoordinate &mCircumCoor,const QString& mColor)
@@ -79,6 +88,26 @@ bool atlas::controller::MapDrawer::move(int mId,const QGeoCoordinate &mPos)
     }
 }
 
+bool atlas::controller::MapDrawer::moveAll(int count,const QGeoCoordinate &mPos, const QGeoCoordinate &midPoint)
+{
+
+
+    double changeinx = mPos.latitude() - midPoint.latitude();
+    double changeiny = mPos.longitude() - midPoint.longitude();
+    QGeoCoordinate a(changeinx,changeiny);
+
+
+    for (int i = 1; i <= count; ++i) {
+        if(mCircleModel.isHighlighted(i) == true){
+              mCircleModel.move(i,a);
+        }
+
+    }
+    return true;
+}
+
+
+
 bool atlas::controller::MapDrawer::updatePath(int mId, bool request,const QGeoCoordinate &coordinate){
 
     if(mPathModel.isExist(mId) == true){
@@ -93,10 +122,33 @@ bool atlas::controller::MapDrawer::updatePath(int mId, bool request,const QGeoCo
     else{
         return false;
     }
+}
 
 
+
+bool  atlas::controller::MapDrawer::removeRec(){
+    return mRectangleModel.remove();
+}
+bool  atlas::controller::MapDrawer::setEndLineR(const QGeoCoordinate &coordinate2){
+     return mRectangleModel.setEndl(coordinate2);
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //SETTERS
 
@@ -132,6 +184,28 @@ bool atlas::controller::MapDrawer::setHighlight(int mId, bool status)
          return false;
      }
 
+}
+
+
+bool atlas::controller::MapDrawer::setHighlightAll(int count,const QGeoCoordinate &coordinate1, const QGeoCoordinate &coordinate2)
+{
+     for (int i = 1; i <= count; ++i) {
+     if(mCircleModel.isExist(i)){
+         if(mCircleModel.isInCoor(i,coordinate1,coordinate2)){
+            mCircleModel.setHighlight(i,1);
+      }
+
+     }
+     }
+
+         return true;
+
+
+}
+
+QGeoCoordinate atlas::controller::MapDrawer::midPoint()
+{
+         return mCircleModel.midPoint();
 }
 
 bool atlas::controller::MapDrawer::setVisibility(int mId, bool status){
@@ -208,5 +282,16 @@ bool atlas::controller::MapDrawer::isExist(int mId){
      else{
          return false;
      }
+}
+
+bool atlas::controller::MapDrawer::createGrid(const QGeoRectangle &rec)
+{
+     mGridModel.draw(rec);
+     return true;
+}
+
+void atlas::controller::MapDrawer::clearGrid()
+{
+     mGridModel.clear();
 }
 

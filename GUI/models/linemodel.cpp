@@ -16,6 +16,7 @@ atlas::gui::LineModel::LineModel(QObject *parent)
     mRoleNames[IsHighlited] = "ishighlited";
     mRoleNames[IsVisible] = "isvisible";
     mRoleNames[Opacity] = "oppacity";
+    mRoleNames[Distance] = "dstnc";
 }
 
 bool atlas::gui::LineModel::draw(int mId,const QGeoCoordinate &mcoordinate1, const QGeoCoordinate &mcoordinate2, const QString &mColor)
@@ -29,12 +30,12 @@ bool atlas::gui::LineModel::draw(int mId,const QGeoCoordinate &mcoordinate1, con
     newLine.mIsHighlited = 0;
     newLine.mOpacity = 1;
 
+
     mData.push_back(newLine);
 
 
-    qDebug()<<"Model: "<<mColor;
 
-    qDebug()<< "Line " << newLine.mId << " has been adde d" << mcoordinate1 << " " << mcoordinate2;
+
 
     endResetModel();
 
@@ -66,11 +67,13 @@ bool atlas::gui::LineModel::move(int mId, const QGeoCoordinate& mCenter){
         new1.setLongitude(it->mCoordinate1.longitude() + changeiny);
         new2.setLongitude(it->mCoordinate2.longitude() + changeiny);
 
+        beginResetModel();
+
         it->mCoordinate1 = new1;
         it->mCoordinate2 = new2;
 
 
-        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+        endResetModel();
 
         return true;
     }
@@ -101,10 +104,10 @@ bool  atlas::gui::LineModel::setHighlight(int mId, bool status){
     auto it = std::find_if(mData.begin(),mData.end(),returned);
 
     if(it != mData.end()){
-
+        beginResetModel();
         QVector<int> roles = {IsHighlited};
         it->mIsHighlited = status;
-        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+        endResetModel();
 
         return true;
     }
@@ -115,30 +118,31 @@ bool atlas::gui::LineModel::setColor(int mId, const QString& mColor){
 
     auto it = std::find_if(mData.begin(),mData.end(),returned);
 
-    if(it != mData.end()){
 
         QVector<int> roles = {Color};
         it->mColor = mColor;
         emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
 
         return true;
-    }
+
 }
 
 bool atlas::gui::LineModel::setOpacity(int mId, double opacity){
-    auto returned = [mId](const Line& line){return line.mId == mId;};
+        for (int var = 0; var < mData.size(); ++var) {
+        if(mData[var].mId == mId){
+            beginResetModel();
 
-    auto it = std::find_if(mData.begin(),mData.end(),returned);
+            QVector<int> roles = {Opacity};
+            mData[var].mOpacity = opacity;
+            endResetModel();
+        }
+        }
 
-    if(it != mData.end()){
 
-        QVector<int> roles = {Opacity};
-        it->mOpacity = opacity;
-        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
 
         return true;
     }
-}
+
 
 
 bool atlas::gui::LineModel::setVisibility(int mId, bool status){
@@ -163,6 +167,18 @@ bool atlas::gui::LineModel::isExist(int mId)
     return  std::find_if(mData.begin(),mData.end(),isExist) != mData.end();
 }
 
+bool atlas::gui::LineModel::isHighlighted(int mId)
+{
+    auto returned = [mId](const Line& line){return line.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+        return it->mIsHighlited;
+    }
+}
+
+
 
 
 bool atlas::gui::LineModel::setEndLine(int mId,const QGeoCoordinate &coordinate2){
@@ -173,7 +189,9 @@ bool atlas::gui::LineModel::setEndLine(int mId,const QGeoCoordinate &coordinate2
 
     if(it != mData.end()){
 
-        QVector<int> roles = {Latitude2, Longitude2};
+        QVector<int> roles = {Latitude2, Longitude2,Distance};
+        it->distance = it->mCoordinate1.distanceTo(coordinate2);
+
         it->mCoordinate2 = coordinate2;
         emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
         //qDebug() << "end line updated :: "<< coordinate2;
@@ -242,6 +260,8 @@ QVariant atlas::gui::LineModel::data(const QModelIndex &index, int role) const
         return line.mCoordinate2.latitude();
     case Longitude2:
         return line.mCoordinate2.longitude();
+    case Distance:
+        return line.distance;
     case Color:
 
         if( line.mIsHighlited == 1){

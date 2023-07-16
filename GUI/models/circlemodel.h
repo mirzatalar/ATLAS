@@ -21,7 +21,8 @@ public:
         Opacity,
         IsVisible,
         IsHighlited,
-        Radius
+        Radius,
+        Area
 
     };
 
@@ -34,6 +35,9 @@ public:
     bool setVisibility(int mId, bool status);
     bool setColor(int mId,const QString& mColor);
     bool isExist(int mId);
+    bool isHighlighted(int mId);
+    bool isInCoor( int mId, const QGeoCoordinate& m1,const QGeoCoordinate &m2);
+    QGeoCoordinate midPoint();
 
     // QAbstracListModelInterface
     int rowCount(const QModelIndex &parent) const;

@@ -33,5 +33,23 @@
         <file>providers/satellite/transit</file>
         <file>providers/satellite/transit-hires</file>
         <file>main.qml</file>
+        <file>icons/atlas.png</file>
+        <file>icons/color.png</file>
+        <file>icons/move.png</file>
+        <file>icons/shape.png</file>
+        <file>icons/zoomi.png</file>
+        <file>icons/zoomo.png</file>
+        <file>icons/tltl.png</file>
+        <file>icons/tltr.png</file>
+        <file>icons/tilt2.png</file>
+        <file>icons/tilt1.png</file>
+        <file>icons/circle.png</file>
+        <file>icons/line.png</file>
+        <file>icons/path.png</file>
+        <file>icons/opacity.png</file>
+        <file>icons/choose.png</file>
+        <file>icons/grid.png</file>
+        <file>icons/goto.png</file>
+        <file>icons/setcenter.png</file>
     </qresource>
 </RCC>

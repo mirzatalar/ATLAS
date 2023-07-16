@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QGeoCoordinate>
+#include <QGeoRectangle>
 
 namespace  atlas :: controller
 {
@@ -22,6 +23,9 @@ namespace  atlas :: controller
         void posClickedL_signal(const QGeoCoordinate &mCoordinate);
         void posClickedD_signal(const QGeoCoordinate &mCoordinate);
         void startDrawLine_signal(const QGeoCoordinate &coordinate1);
+        void currentRec_signal(const QGeoRectangle &rectangle);
+        void center_signal(const QGeoCoordinate &coordinate1);
+        void gocenter_signal();
 
 
     public slots :
@@ -29,6 +33,10 @@ namespace  atlas :: controller
         void toCPPposClickedR(const QGeoCoordinate &mCoordinate);
         void toCPPposClickedL(const QGeoCoordinate &mCoordinate);
         void toCPPposClickedD(const QGeoCoordinate &mCoordinate);
+        void currentRec(const QGeoRectangle &rectangle);
+        void cntr(const QGeoCoordinate &coordinate1);
+        void gocntr();
+
         //QGeoCoordinate option(int opt);
 
     };

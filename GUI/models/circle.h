@@ -17,6 +17,7 @@ public:
     int radius;
     QGeoCoordinate mCenter;
     QGeoCoordinate mCircumCoor;
+    long area;
 
 };
 

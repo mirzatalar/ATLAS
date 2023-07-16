@@ -22,7 +22,8 @@ namespace atlas::gui {
             Color,
             IsVisible,
             Opacity,
-            IsHighlited
+            IsHighlited,
+            Distance
 
         };
 
@@ -34,6 +35,7 @@ namespace atlas::gui {
         bool setVisibility(int mId, bool status);
         bool setColor(int mId, const QString& mColor);
         bool isExist(int mId);
+        bool isHighlighted(int mId);
 
         bool setEndLine(int mId,const QGeoCoordinate &coordinate2);
         bool setBeginLine(int mId,const QGeoCoordinate &coordinate1);

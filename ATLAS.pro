@@ -1,4 +1,4 @@
-QT += quick location positioning
+QT += quick location positioning widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,9 +17,12 @@ SOURCES += \
     GUI/models/Line.cpp \
     GUI/models/circle.cpp \
     GUI/models/circlemodel.cpp \
+    GUI/models/gridmodel.cpp \
     GUI/models/linemodel.cpp \
     GUI/models/path.cpp \
     GUI/models/pathmodel.cpp \
+    GUI/models/rectangle.cpp \
+    GUI/models/rectanglemodel.cpp \
     main.cpp
 
 HEADERS += \
@@ -30,10 +33,13 @@ HEADERS += \
     Controller/mapmouseactioncontroller.h \
     GUI/models/circle.h \
     GUI/models/circlemodel.h \
+    GUI/models/gridmodel.h \
     GUI/models/line.h \
     GUI/models/linemodel.h \
     GUI/models/path.h \
-    GUI/models/pathmodel.h
+    GUI/models/pathmodel.h \
+    GUI/models/rectangle.h \
+    GUI/models/rectanglemodel.h
 
 FORMS +=
 

@@ -31,8 +31,7 @@ QGeoCoordinate MapController::center() const
 
 void MapController::setCenter(const QGeoCoordinate &newCenter)
 {
-    if (mCenter == newCenter)
-        return;
+
     mCenter = newCenter;
     emit centerChanged();
 }

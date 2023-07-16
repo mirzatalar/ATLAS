@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QGeoCoordinate>
+
 #include <Controller/mapmouseactioncontroller.h>
 
 namespace atlas::controller{
@@ -20,10 +21,21 @@ namespace atlas::controller{
 
     signals:
            void startDraw_signal(int opt);
+           void color_signal(const QString &clr);
+           void highlight_signal(int Id);
+           void zoom_signal(int zoomlevel);
+           void bearing_signal(int brg);
+           void tilt_signal(int tlt);
 
 
     public slots :
             void startDrawOptiontoAC(int opt);
+            void colorPicker(const QString &clr);
+            void highlight(int Id);
+            void zoom(int zoomlevel);
+            void bearing(int brg);
+            void tilt(int tlt);
+
 
     };
 }

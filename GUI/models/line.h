@@ -16,6 +16,7 @@ public:
     bool mIsHighlited;
     QGeoCoordinate mCoordinate1;
     QGeoCoordinate mCoordinate2;
+    int distance;
 
 
 
