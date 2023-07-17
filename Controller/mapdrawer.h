@@ -12,6 +12,7 @@
 #include "GUI/models/pathmodel.h"
 #include "GUI/models/rectanglemodel.h"
 #include "GUI/models/gridmodel.h"
+#include "GUI/models/customentitymodel.h"
 #include <QVariantList>
 namespace  atlas :: controller
 {
@@ -54,11 +55,12 @@ namespace  atlas :: controller
 
 
     private:
+        int entityCount;
         atlas::gui::LineModel mLineModel;
         atlas::gui::CircleModel mCircleModel;
         atlas::gui::PathModel mPathModel;
         atlas::gui::RectangleModel mRectangleModel;
-        atlas::gui::GridModel mGridModel;;
+        atlas::gui::GridModel mGridModel;
 
     };
 }

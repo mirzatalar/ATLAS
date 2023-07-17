@@ -9,6 +9,7 @@ CONFIG += c++17
 
 SOURCES += \
     Controller/actioncontroller.cpp \
+    Controller/entitycontroller.cpp \
     Controller/maincontroller.cpp \
     Controller/mapcontroller.cpp \
     Controller/mapdrawer.cpp \
@@ -16,6 +17,8 @@ SOURCES += \
     GUI/models/Line.cpp \
     GUI/models/circle.cpp \
     GUI/models/circlemodel.cpp \
+    GUI/models/customentitymodel.cpp \
+    GUI/models/entity.cpp \
     GUI/models/gridmodel.cpp \
     GUI/models/linemodel.cpp \
     GUI/models/path.cpp \
@@ -26,12 +29,16 @@ SOURCES += \
 
 HEADERS += \
     Controller/actioncontroller.h \
+    Controller/entitycontroller.h \
     Controller/maincontroller.h \
     Controller/mapcontroller.h \
     Controller/mapdrawer.h \
     Controller/mapmouseactioncontroller.h \
+    GUI/models/EntityType.h \
     GUI/models/circle.h \
     GUI/models/circlemodel.h \
+    GUI/models/customentitymodel.h \
+    GUI/models/entity.h \
     GUI/models/gridmodel.h \
     GUI/models/line.h \
     GUI/models/linemodel.h \

@@ -320,6 +320,106 @@ Window {
                       }
                 }
 
+                RoundButton{
+                   id:entity
+                   anchors.right: del.left
+                   anchors.rightMargin: 10
+                   radius:5
+                   y:10
+                   icon.source: "qrc:/icons/entity.png"
+                   height: 40
+                   width:40
+                   onClicked:entityMenu.popup()
+                   palette.buttonText: "white"
+                   palette.button: qmlColor
+                   z:5
+                   ToolTip {
+                         y:50
+                         delay: 750
+                         visible: entity.hovered
+                         contentItem: Text {
+                         text: "Add Entity"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
+                }
+                Menu {
+                   id: entityMenu
+                   topMargin: 60
+                   rightMargin: 367.5
+                   width:45
+                   z:5
+
+                   MenuItem {
+                       height:45
+                       width:45
+                       contentItem:  Image{
+                       source: "qrc:/icons/icon_civil_car.png"}
+                       background: Rectangle{color: "black"; opacity:0.8}
+                       onClicked: actionController.addEntity(1);
+                       z:5
+
+                   }
+                   MenuItem {
+                       height:45
+                       width:45
+                       contentItem:  Image{
+                       source: "qrc:/icons/icon_aircraft.png"}
+                       background: Rectangle{color: "black"; opacity:0.8}
+                       onClicked: actionController.addEntity(2);
+                       z:5
+
+                   }
+                   MenuItem {
+                       height:45
+                       width:45
+                       contentItem:  Image{
+                       source: "qrc:/icons/icon_drone.png"}
+                       background: Rectangle{color: "black"; opacity:0.8}
+                       onClicked: actionController.addEntity(3);
+                       z:5
+
+                   }
+                   MenuItem {
+                       height:45
+                       width:45
+                       contentItem:  Image{
+                       source: "qrc:/icons/icon_tank.png"}
+                       background: Rectangle{color: "black"; opacity:0.8}
+                       onClicked: actionController.addEntity(4);
+                       z:5
+
+                   }
+                   MenuItem {
+                       height:45
+                       width:45
+                       contentItem:  Image{
+                       source: "qrc:/icons/icon_helicopter.png"}
+                       background: Rectangle{color: "black"; opacity:0.8}
+                       onClicked: actionController.addEntity(5);
+                       z:5
+
+                   }
+                   MenuItem {
+                       height:45
+                       width:45
+                       contentItem:  Image{
+                       source: "qrc:/icons/icon_warship.png"}
+                       background: Rectangle{color: "black"; opacity:0.8}
+                       onClicked: actionController.addEntity(6);
+                       z:5
+
+                   }
+
+                 }
+
                 Menu {
                    id: colorMenu
                    topMargin: 60
@@ -775,6 +875,7 @@ Window {
                             radius: rds
                             opacity: oppacity
                             center: QtPositioning.coordinate(latitude, longitude)
+
                             MouseArea {
                              hoverEnabled: true
                              anchors.fill: parent
@@ -823,7 +924,7 @@ Window {
                         MapRectangle{
                             id:rec
                             color:"lightblue"
-                            opacity: 0.3
+                            opacity: 0.1
                             border.width:0
                             topLeft: QtPositioning.coordinate(latitude1, longitude1)
                             bottomRight: QtPositioning.coordinate(latitude2, longitude2)
@@ -834,6 +935,7 @@ Window {
 
 
                 }
+
 
                 MapItemView {
                     model: gridModel
@@ -848,11 +950,53 @@ Window {
                                     { latitude: latitude1, longitude: longitude1 },
                                     { latitude: latitude2, longitude: longitude2 }]
                     }
+
                 }
+
+                MapItemView {
+                    model: customEntityModel
+                    delegate:
+                        MapQuickItem{                      
+                        id:entityGraph
+                            sourceItem: Image {
+                                id: transImage
+                                width: 10* map1.zoomLevel
+                                height: 10*map1.zoomLevel
+                                source: icon
+                                rotation:heading
+
+
+                                MouseArea {
+                                    hoverEnabled: true
+
+                                    anchors.fill: parent
+                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                    onClicked: {
+                                        if (mouse.button === Qt.RightButton){
+
+                                           actionController.highlightEntity(Id)
+
+                                        }
+                                        else if (mouse.button === Qt.LeftButton){
+                                            //popup.open()
+                                            //transImage.source = ("qrc:/icons/mavi.png")
+
+                                        }
+
+                                    }
+                              }
+
+
+                            }
+                        z:10
+
+                     coordinate: QtPositioning.coordinate(latitude, longitude)
+
 
             }
 
 
 
-
+}
+            }
 }

@@ -243,6 +243,7 @@ QGeoCoordinate atlas::gui::CircleModel::midPoint()
 
 
 
+
 int  atlas::gui::CircleModel::rowCount(const QModelIndex &parent) const
 {
     return mData.size();

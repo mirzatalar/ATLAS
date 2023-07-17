@@ -19,6 +19,11 @@ void atlas::controller::ActionController::startDrawOptiontoAC(int opt)
 
 }
 
+void atlas::controller::ActionController::addEntity(int opt)
+{
+        emit addEntity_signal(opt);
+}
+
 void atlas::controller::ActionController::colorPicker(const QString &clr)
 {
 
@@ -28,8 +33,14 @@ void atlas::controller::ActionController::colorPicker(const QString &clr)
 }
 
 void atlas::controller::ActionController:: highlight(int Id){
+        //qDebug() << Id;
 
-    emit highlight_signal(Id);
+        emit highlight_signal(Id);
+}
+
+void atlas::controller::ActionController::highlightEntity(int Id)
+{
+    emit highlightEntity_signal(Id);
 }
 void atlas::controller::ActionController:: zoom(int zoomLevel){
 

@@ -52,5 +52,19 @@
         <file>icons/goto.png</file>
         <file>icons/setcenter.png</file>
         <file>icons/delete.png</file>
+        <file>icons/icon_aircraft.png</file>
+        <file>icons/icon_civil_car.png</file>
+        <file>icons/icon_drone.png</file>
+        <file>icons/icon_helicopter.png</file>
+        <file>icons/icon_tank.png</file>
+        <file>icons/icon_warship.png</file>
+        <file>icons/mavi.png</file>
+        <file>icons/entity.png</file>
+        <file>icons/h-aircraft.png</file>
+        <file>icons/h-car.png</file>
+        <file>icons/h-drone.png</file>
+        <file>icons/h-helicopter.png</file>
+        <file>icons/h-tank.png</file>
+        <file>icons/h-warship.png</file>
     </qresource>
 </RCC>

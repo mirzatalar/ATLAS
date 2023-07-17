@@ -5,6 +5,7 @@
 #include <QGeoCoordinate>,
 #include <QGeoRectangle>
 #include <Controller/mapcontroller.h>
+#include <Controller/entitycontroller.h>
 #include <Controller/mapmouseactioncontroller.h>
 #include <Controller/actioncontroller.h>
 
@@ -22,6 +23,7 @@ class  MapDrawer;
         void init(QQmlApplicationEngine* engine);
     private:
         MapController mMapController;
+        EntityController* mEntityController;
         MapDrawer*   mMapDrawer;
         MapMouseActionController mMapMouseActionController;
         ActionController mActionController;
@@ -31,6 +33,8 @@ class  MapDrawer;
         bool end = 1;
         bool start = 0;
         int option;
+        int addedItem = 0;
+        int entityCount = 0;
         QString clor = "black";
         int itemCount = 0;
         bool gridOn = false;
@@ -51,12 +55,14 @@ class  MapDrawer;
         void StartAction(int opt);
         void ChangeColor(const QString &clr);
         void highlight(int id);
+        void highlightEntity(int id);
         void setZoom(int zoomLevel);
         void setBearing(int zoomLevel);
         void setTilt(int zoomLevel);
         void grid(const QGeoRectangle &rec);
         void center(const QGeoCoordinate& coor);
         void gocenter();
+        void addEntity(int opt);
 
 
 

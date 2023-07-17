@@ -11,14 +11,16 @@ atlas::controller::MapDrawer::MapDrawer(QObject *parent, QQmlApplicationEngine *
 {
     qmlRegisterType<atlas::gui::LineModel>("com.bitessavunma.linemodel", 1, 0, "LineModel");
     engine->rootContext()->setContextProperty("lineModel",  &mLineModel);
-    qmlRegisterType<atlas::gui::LineModel>("com.bitessavunma.pathmodel", 1, 0, "PathModel");
+    qmlRegisterType<atlas::gui::PathModel>("com.bitessavunma.pathmodel", 1, 0, "PathModel");
     engine->rootContext()->setContextProperty("pathModel",  &mPathModel);
-    qmlRegisterType<atlas::gui::LineModel>("com.bitessavunma.circlemodel", 1, 0, "CircleModel");
+    qmlRegisterType<atlas::gui::CircleModel>("com.bitessavunma.circlemodel", 1, 0, "CircleModel");
     engine->rootContext()->setContextProperty("circleModel",  &mCircleModel);
-    qmlRegisterType<atlas::gui::LineModel>("com.bitessavunma.rectanglemodel", 1, 0, "RectangleModel");
+    qmlRegisterType<atlas::gui::RectangleModel>("com.bitessavunma.rectanglemodel", 1, 0, "RectangleModel");
     engine->rootContext()->setContextProperty("rectangleModel",  &mRectangleModel);
-    qmlRegisterType<atlas::gui::LineModel>("com.bitessavunma.gridmodel", 1, 0, "GridModel");
+    qmlRegisterType<atlas::gui::GridModel>("com.bitessavunma.gridmodel", 1, 0, "GridModel");
     engine->rootContext()->setContextProperty("gridModel",  &mGridModel);
+
+
 }
 
 
@@ -180,6 +182,8 @@ bool atlas::controller::MapDrawer::setHighlight(int mId, bool status)
          return  mPathModel.setHighlight(mId,status);
      }
 
+
+
      else{
          return false;
      }
@@ -304,4 +308,5 @@ void atlas::controller::MapDrawer::deleteAll(int count)
 
      }
 }
+
 

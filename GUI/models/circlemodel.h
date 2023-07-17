@@ -39,6 +39,7 @@ public:
     bool isInCoor( int mId, const QGeoCoordinate& m1,const QGeoCoordinate &m2);
     QGeoCoordinate midPoint();
 
+
     // QAbstracListModelInterface
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
