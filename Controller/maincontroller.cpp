@@ -29,7 +29,7 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     QGeoCoordinate a;
     a.setLatitude(40);
     a.setLongitude(36);
-    mMapController.setZoomLevel(6);
+    mMapController.setZoomLevel(13);
     mMapController.setCenter(a);
     mMapController.setTilt(0);
     mMapController.setBearing(0);
@@ -127,6 +127,8 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     QObject::connect(&mMapMouseActionController, &MapMouseActionController::gocenter_signal, this, &MainController::gocenter);
 
     QObject::connect(&mActionController, &ActionController::addEntity_signal, this, &MainController::addEntity);
+    QObject::connect(&mActionController, &ActionController::speed_signal, this, &MainController::setSpeed);
+     QObject::connect(&mActionController, &ActionController::deleteLoc_signal, this, &MainController::deleteLoc);
 
 
 
@@ -136,7 +138,10 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
 
 void atlas::controller::MainController::LeftClicked(const QGeoCoordinate& coor){
 
-    //qDebug() << addedItem;
+//qDebug() << option;
+//qDebug() << start;
+//qDebug() << end;
+
     if(option == 0){
         for (int var = 1; var <= itemCount; ++var) {
             mMapDrawer->setHighlight(var,0);
@@ -149,22 +154,19 @@ void atlas::controller::MainController::LeftClicked(const QGeoCoordinate& coor){
     }
 
      if(option == 4){
-//        QGeoCoordinate x = mMapDrawer->midPoint();
 
-
-//        mMapDrawer->moveAll(itemCount,coor, x);
-//        for (int i = 1; i <= itemCount; ++i) {
-//            mMapDrawer->setHighlight(i,0);
-//        }
 
         QGeoCoordinate x = mEntityController->midPoint();
+         entityCount = mEntityController->entityCount;
 
 
 
-        mEntityController->moveAll(entityCount,coor, x);       
+
+        mEntityController->moveAll(entityCount,coor, x,mMapController,mapMove);
         for (int i = 1; i <= itemCount; ++i) {
             mMapDrawer->setHighlight(i,0);
         }
+
 
 
         start = 0;
@@ -172,24 +174,34 @@ void atlas::controller::MainController::LeftClicked(const QGeoCoordinate& coor){
         QGuiApplication::restoreOverrideCursor();
         option = 0;
 
-    }
 
+    }
 
 if( option == 7){
     QGuiApplication::restoreOverrideCursor();
     cntr = coor;
     end = 1;
     start = 0;
-    option =  0;
+
 }
 else if(addedItem != 0){
     QGuiApplication::restoreOverrideCursor();
-    mEntityController->addEntity(++entityCount,(EntityType)addedItem,coor,90,0);
+    mEntityController->addEntity(++entityCount,(EntityType)addedItem,coor,90,20);
     start = 0;
     end = 1;
     addedItem = 0;
 
 }
+
+else if(option == 10){
+    QGuiApplication::restoreOverrideCursor();
+    mMapDrawer->addLoc(++locCount, coor);
+    start = 0;
+    end = 1;
+     option =  0;
+
+}
+
 
 
 else if(start == 1 && end==0 && rightclicked == 0){
@@ -228,7 +240,9 @@ QGuiApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
         rightclicked = 1;
 
     }
+
     else if(start == 0 && end==0 && rightclicked == 1){
+    qDebug() << "acc";
              QGuiApplication::restoreOverrideCursor();
         if(option == 1){
 
@@ -260,10 +274,14 @@ QGuiApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
              end = 1;
              start = 0;
              option = 0;
+
         }
 
         rightclicked = 0;
 }
+
+
+
     if(option == 3 && end == 0 && start == 0){
         mMapDrawer->updatePath(itemCount,1,coor);
         end = 0;
@@ -348,19 +366,21 @@ void atlas::controller::MainController::ChangeColor(const QString &clr){
 
 void atlas::controller::MainController::StartAction(int opt){
     option = opt;
-    if(start == 0 && end == 1){
+    if(start == 0 && end == 1 ){
         start = 1;
         end = 0;
     }
     if(option == 6)
     {
         gridOn = !gridOn;
+        start = 0;
+        end = 1;
     }
     if(option == 6 && !gridOn)
     {
         mMapDrawer->clearGrid();
     }
-    if(option == 7)
+    if(option == 7 || option == 10)
     {
        QGuiApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     }
@@ -369,7 +389,16 @@ void atlas::controller::MainController::StartAction(int opt){
        mMapDrawer->deleteAll(itemCount);
 
        mEntityController->deleteAll(entityCount);
+       start = 0;
+       end = 1;
 
+    }
+    if(option == 9){
+
+       mapMove = !mapMove;
+
+       start = 0;
+       end = 1;
     }
 
 
@@ -400,7 +429,8 @@ void atlas::controller::MainController::highlightEntity(int id){
      mEntityController->setHighlight(id,!mEntityController->isHighlighted(id));
 }
 
-void atlas::controller::MainController::setZoom(int zoomLevel){
+void atlas::controller::MainController::setZoom(double zoomLevel){
+     qDebug() << zoomLevel;
     mMapController.setZoomLevel(zoomLevel);
 }
 void atlas::controller::MainController::setTilt(int tlt){
@@ -415,26 +445,22 @@ void atlas::controller::MainController::grid(const QGeoRectangle &rec){
 
     if(gridOn == true){
 
+
+
+
         mMapDrawer->createGrid(rec);
-
-
     }
-
-
-
 }
 
 void atlas::controller::MainController::center(const QGeoCoordinate &coor)
 {
-
-    cntr = coor;
-
+    mMapController.setCenterwithAnim(coor);
 }
 
 void atlas::controller::MainController::gocenter()
 {
 
-    mMapController.setCenter(cntr);
+    mMapController.setCenterwithAnim(cntr);
 }
 
 void atlas::controller::MainController::addEntity(int opt)
@@ -445,4 +471,15 @@ void atlas::controller::MainController::addEntity(int opt)
         end = 0;
     }
     addedItem = opt;
+}
+
+void atlas::controller::MainController::deleteLoc(int mId)
+{
+    mMapDrawer->removeLoc(mId);
+}
+
+void atlas::controller::MainController::setSpeed(int speed)
+{
+
+    mEntityController->setSpeed(entityCount,speed);
 }

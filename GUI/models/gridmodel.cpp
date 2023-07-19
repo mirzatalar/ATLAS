@@ -1,4 +1,5 @@
 #include "gridmodel.h"
+#include <QDebug>
 
 atlas::gui::GridModel::GridModel(QObject *parent)
     : QAbstractListModel{parent}
@@ -11,6 +12,8 @@ atlas::gui::GridModel::GridModel(QObject *parent)
 
 bool atlas::gui::GridModel::draw(const QGeoRectangle &rec)
 {
+
+
 
     double a = rec.topLeft().longitude(); // 22
     double b = rec.topRight().longitude(); // 48

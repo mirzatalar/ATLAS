@@ -8,6 +8,7 @@
 #include <QGeoRectangle>
 #include <GUI/models/linemodel.h>
 #include <GUI/models/circlemodel.h>
+#include <GUI/models/locationmodel.h>
 #include <QQmlEngine>
 #include "GUI/models/pathmodel.h"
 #include "GUI/models/rectanglemodel.h"
@@ -54,6 +55,12 @@ namespace  atlas :: controller
         QGeoCoordinate midPoint();
 
 
+        bool addLoc(int mId,const QGeoCoordinate &coordinate);
+        bool removeLoc(int mId);
+
+
+
+
     private:
         int entityCount;
         atlas::gui::LineModel mLineModel;
@@ -61,6 +68,7 @@ namespace  atlas :: controller
         atlas::gui::PathModel mPathModel;
         atlas::gui::RectangleModel mRectangleModel;
         atlas::gui::GridModel mGridModel;
+        atlas::gui::LocationModel mLocModel;
 
     };
 }

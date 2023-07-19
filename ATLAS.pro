@@ -21,6 +21,8 @@ SOURCES += \
     GUI/models/entity.cpp \
     GUI/models/gridmodel.cpp \
     GUI/models/linemodel.cpp \
+    GUI/models/location.cpp \
+    GUI/models/locationmodel.cpp \
     GUI/models/path.cpp \
     GUI/models/pathmodel.cpp \
     GUI/models/rectangle.cpp \
@@ -42,6 +44,8 @@ HEADERS += \
     GUI/models/gridmodel.h \
     GUI/models/line.h \
     GUI/models/linemodel.h \
+    GUI/models/location.h \
+    GUI/models/locationmodel.h \
     GUI/models/path.h \
     GUI/models/pathmodel.h \
     GUI/models/rectangle.h \

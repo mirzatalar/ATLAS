@@ -21,7 +21,9 @@ public:
         Heading,
         IsHighlited,
         Speed,
-        Type
+        Type,
+        ReelIcon,
+        TypeName
 
     };
 
@@ -42,6 +44,9 @@ public:
     bool isHighlighted(int mId);
     QGeoCoordinate getPos(int mId);
     bool isInCoor( int mId, const QGeoCoordinate& m1,const QGeoCoordinate &m2);
+    void setSpeed(int mId, int speed);
+    int getSpeed(int mId);
+
 
 
 

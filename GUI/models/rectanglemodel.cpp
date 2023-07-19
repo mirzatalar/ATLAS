@@ -44,12 +44,28 @@ bool atlas::gui::RectangleModel::draw(const QGeoCoordinate &c1, const QGeoCoordi
 bool atlas::gui::RectangleModel::setEndl(const QGeoCoordinate &m2)
 {
 
-    beginResetModel();
-    (mData.begin())->coor2 = m2;
+//    beginResetModel();
 
-    endResetModel();
+//    (mData.begin())->coor2 = m2;
 
-    return true;
+//    endResetModel();
+
+//    return true;
+
+
+
+    auto it = mData.begin();
+
+
+        QVector<int> roles = {Latitude2,Longitude2};
+
+        it->coor2 = m2;
+
+
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
+        return true;
+
 }
 
 

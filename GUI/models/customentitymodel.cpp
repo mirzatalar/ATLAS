@@ -12,6 +12,8 @@ atlas::gui::CustomEntityModel::CustomEntityModel()
     mRoleNames[Speed] = "Speed";
     mRoleNames[Type] = "Type";
     mRoleNames[IsHighlited] = "ishighlited";
+    mRoleNames[ReelIcon] = "reelicon";
+    mRoleNames[TypeName] = "typename";
 }
 
 bool atlas::gui::CustomEntityModel::addEntity(int mId, const EntityType &mType, const QString &mIcon, const QGeoCoordinate &mCoordinate, int mHeading, int mSpeed)
@@ -33,21 +35,33 @@ bool atlas::gui::CustomEntityModel::addEntity(int mId, const EntityType &mType, 
             newEntity.mIcon = mIcon;
             if(mType == (EntityType)1){
                 newEntity.highlitedIcon = "qrc:/icons/h-car.png";
+                newEntity.ReelIcon = "qrc:/icons/mc.png";
+                newEntity.typeName = "Lighting McQueen";
             }
-            if(mType == (EntityType)2){
+            else if(mType == (EntityType)2){
                 newEntity.highlitedIcon = "qrc:/icons/h-aircraft.png";
+                newEntity.ReelIcon = "qrc:/icons/jet3d.png";
+                newEntity.typeName = "Jet";
             }
-            if(mType == (EntityType)3){
+            else if(mType == (EntityType)3){
                 newEntity.highlitedIcon = "qrc:/icons/h-drone.png";
+                newEntity.ReelIcon = "qrc:/icons/drone3d.png";
+                newEntity.typeName = "Drone";
             }
-            if(mType == (EntityType)4){
+            else if(mType == (EntityType)4){
                 newEntity.highlitedIcon = "qrc:/icons/h-tank.png";
+                newEntity.ReelIcon = "qrc:/icons/tank3d.png";
+                newEntity.typeName = "Tank";
             }
-            if(mType == (EntityType)5){
+            else if(mType == (EntityType)5){
                 newEntity.highlitedIcon = "qrc:/icons/h-helicopter.png";
+                newEntity.ReelIcon = "qrc:/icons/heli3d.png";
+                newEntity.typeName = "Helicopter";
             }
-            if(mType == (EntityType)6){
+            else if(mType == (EntityType)6){
                 newEntity.highlitedIcon = "qrc:/icons/h-warship.png";
+                newEntity.ReelIcon = "qrc:/icons/ship3d.png";
+                newEntity.typeName = "War Ship";
             }
 
             newEntity.mIsHighlited = false;
@@ -71,7 +85,7 @@ bool atlas::gui:: CustomEntityModel::updatePos(int mId, const QGeoCoordinate &ne
     if(it != mData.end()){
 
                 QVector<int> roles = {Latitude, Longitude, Heading};
-                    beginResetModel();
+                    //beginResetModel();
 
 
                   if( newCoordinate.latitude() < 0){
@@ -83,7 +97,8 @@ bool atlas::gui:: CustomEntityModel::updatePos(int mId, const QGeoCoordinate &ne
 
                 it->mCoordinate.setLatitude(it->mCoordinate.latitude() + newCoordinate.latitude());
                 it->mCoordinate.setLongitude(it->mCoordinate.longitude() + newCoordinate.longitude());
-                endResetModel();
+                emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+                //endResetModel();
 
 
         return true;
@@ -129,6 +144,38 @@ bool atlas::gui::CustomEntityModel::isInCoor( int mId, const QGeoCoordinate& m1,
 
 
 
+}
+
+void atlas::gui::CustomEntityModel::setSpeed(int mId, int speed)
+{
+    auto returned = [mId](const Entity& entity){return entity.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        QVector<int> roles = {Speed};
+        beginResetModel();
+
+        it->mSpeed = speed;
+
+        //emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+        endResetModel();
+
+    }
+}
+
+int atlas::gui::CustomEntityModel::getSpeed(int mId)
+{
+    //qDebug() << mData[0].mIsHighlited;
+    auto returned = [mId](const Entity& entity){return entity.mId == mId;};
+
+    auto it = std::find_if(mData.begin(),mData.end(),returned);
+
+    if(it != mData.end()){
+
+        return it->mSpeed;
+    }
 }
 
 int atlas::gui::CustomEntityModel::rowCount(const QModelIndex &parent) const
@@ -196,8 +243,12 @@ QVariant atlas::gui::CustomEntityModel::data(const QModelIndex &index, int role)
         return entity.mHeading;
     case Speed:
         return entity.mSpeed;
+    case ReelIcon:
+        return entity.ReelIcon;
     case Type:
         return (int)entity.mType;
+    case TypeName:
+        return entity.typeName;
         break;
     default:
         break;
@@ -227,14 +278,14 @@ bool atlas::gui::CustomEntityModel::setHighlight(int mId, bool status)
 
     if(it != mData.end()){
 
-        QVector<int> roles = {IsHighlited};
-        beginResetModel();
+        QVector<int> roles = {Icon};
+        //beginResetModel();
 
 
         it->mIsHighlited = status;
 
-        //emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
-        endResetModel();
+        emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+        //endResetModel();
 
         return true;
     }
@@ -256,13 +307,13 @@ bool atlas::gui::CustomEntityModel::isHighlighted(int mId)
 
 QGeoCoordinate atlas::gui::CustomEntityModel::getPos(int mId)
 {
-    qDebug() << mId;
+    //qDebug() << mId;
     auto returned = [mId](const Entity& entity){return entity.mId == mId;};
 
     auto it = std::find_if(mData.begin(),mData.end(),returned);
 
     if(it != mData.end()){
-        qDebug() << "bu fie girdi";
+       // qDebug() << "bu fie girdi";
         return it->mCoordinate;
     }
 }

@@ -42,6 +42,8 @@ class  MapDrawer;
         QGeoCoordinate topLeft;
         QGeoCoordinate bottomRight;
         QGeoCoordinate cntr;
+        bool mapMove = false;
+        int locCount = 0;
 
 
 
@@ -56,13 +58,16 @@ class  MapDrawer;
         void ChangeColor(const QString &clr);
         void highlight(int id);
         void highlightEntity(int id);
-        void setZoom(int zoomLevel);
+        void setZoom(double zoomLevel);
         void setBearing(int zoomLevel);
         void setTilt(int zoomLevel);
         void grid(const QGeoRectangle &rec);
         void center(const QGeoCoordinate& coor);
         void gocenter();
         void addEntity(int opt);
+        void deleteLoc(int mId);
+
+        void setSpeed(int speed);
 
 
 

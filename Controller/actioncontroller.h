@@ -24,10 +24,13 @@ namespace atlas::controller{
            void color_signal(const QString &clr);
            void highlight_signal(int Id);
            void highlightEntity_signal(int Id);
-           void zoom_signal(int zoomlevel);
+           void zoom_signal(double zoomlevel);
            void bearing_signal(int brg);
            void tilt_signal(int tlt);
            void addEntity_signal(int opt);
+           void speed_signal(int speed);
+           void deleteLoc_signal(int mId);
+
 
 
     public slots :
@@ -36,9 +39,11 @@ namespace atlas::controller{
             void colorPicker(const QString &clr);
             void highlight(int Id);
             void highlightEntity(int Id);
-            void zoom(int zoomlevel);
+            void zoom(double zoomlevel);
             void bearing(int brg);
             void tilt(int tlt);
+            void speed(int spped);
+            void deleteLoc(int mId);
 
 
     };

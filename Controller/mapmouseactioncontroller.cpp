@@ -48,6 +48,7 @@ void atlas::controller::MapMouseActionController:: currentRec(const QGeoRectangl
 
 void atlas::controller::MapMouseActionController::cntr(const QGeoCoordinate &coordinate1)
 {
+
     emit center_signal(coordinate1);
 }
 

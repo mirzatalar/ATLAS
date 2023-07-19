@@ -4,6 +4,7 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QTimer>
+#include <QPropertyAnimation>
 
 atlas::controller::EntityController::EntityController(QObject *parent, QQmlApplicationEngine *engine)
     : QObject{parent}
@@ -73,6 +74,7 @@ void atlas::controller::EntityController::deleteAll(int count)
     for (int i = 1; i <= count; ++i) {
         if(mCustomEntityModel.isHighlighted(i) == true){
             mCustomEntityModel.deleteEntity(i);
+            entityCount--;
         }
 
     }
@@ -88,7 +90,7 @@ QGeoCoordinate atlas::controller::EntityController::midPoint()
     return mCustomEntityModel.midPoint();
 }
 
-bool atlas::controller::EntityController::moveAll(int count, const QGeoCoordinate &mPos, const QGeoCoordinate &midPoint)
+bool atlas::controller::EntityController::moveAll(int count, const QGeoCoordinate &mPos, const QGeoCoordinate &midPoint,MapController &mc,bool mapMove)
 {
 //qDebug() << "cagrildi";
 //    double changeinx = mPos.latitude() - midPoint.latitude();
@@ -106,41 +108,57 @@ bool atlas::controller::EntityController::moveAll(int count, const QGeoCoordinat
 //    }
 //    return true;
 
+    //    QPropertyAnimation*  animation = new QPropertyAnimation(this, "mCoordianate");
+    //    animation->setDuration(10000);
+    //    animation->setStartValue(QVariant::fromValue(center()));
+    //    animation->setEndValue(QVariant::fromValue(mPos));
 
 
 
 
 
-    mTimer = new QTimer();
+    if(count != 0) {
+        mTimer = new QTimer();
 
-    //mTimer->setSingleShot(true); // Tek seferlik tetikleme modunu etkinleştirin
-    mTimer->start(100);
-    static int counter = 0; // Sayaç değeri
-
-
-
-     QObject :: connect(mTimer,&QTimer::timeout,[this, count, mPos, midPoint]{
+        //mTimer->setSingleShot(true); // Tek seferlik tetikleme modunu etkinleştirin
+        mTimer->start(10);
+        static int counter = 0; // Sayaç değeri
 
 
 
+        QObject :: connect(mTimer,&QTimer::timeout,[this, count, mPos, midPoint,&mc, mapMove]{
 
-        double changeinx = mPos.latitude() - midPoint.latitude();
-        double changeiny = mPos.longitude() - midPoint.longitude();
-        QGeoCoordinate a(changeinx/50,changeiny/50);
+
+
+
+
+            double changeinx = mPos.latitude() - midPoint.latitude();
+            double changeiny = mPos.longitude() - midPoint.longitude();
+
+            if(mapMove == true) {
+
+                mc.setCenter(mCustomEntityModel.midPoint());
+            }
 
             for (int i = 1; i <= count; ++i) {
+                //qDebug() << mCustomEntityModel.getSpeed(i);
+                QGeoCoordinate a(changeinx/(800/mCustomEntityModel.getSpeed(i)),changeiny/(800/mCustomEntityModel.getSpeed(i)));
                 if(mCustomEntityModel.isHighlighted(i) == true){
                     mCustomEntityModel.updatePos(i,a);
                 }
+
+
             }
-            ++counter; // Sayaç değerini arttır
-            if (counter >= 50) {
+            ++counter;
+            if (counter >= (800/mCustomEntityModel.getSpeed(1))) {
                 mTimer->stop();
                 counter = 0;
             }
 
 
-    });
+
+        });
+    }
 
 
 //    for (int i = 1; i <= count; ++i) {
@@ -166,4 +184,18 @@ bool atlas::controller::EntityController::setHighlightAll(int count,const QGeoCo
     return true;
 
 
+}
+
+void atlas::controller::EntityController::setSpeed(int entitycount,int speed)
+{
+    for (int i = 1; i <= entitycount; ++i) {
+        if(mCustomEntityModel.isHighlighted(i) == true){
+            mCustomEntityModel.setSpeed(i,speed);
+        }
+    }
+}
+
+int atlas::controller::EntityController::getSpeed(int id)
+{
+    return mCustomEntityModel.getSpeed(id);
 }

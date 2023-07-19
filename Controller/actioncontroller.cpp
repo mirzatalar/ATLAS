@@ -42,7 +42,8 @@ void atlas::controller::ActionController::highlightEntity(int Id)
 {
     emit highlightEntity_signal(Id);
 }
-void atlas::controller::ActionController:: zoom(int zoomLevel){
+void atlas::controller::ActionController:: zoom(double zoomLevel){
+    qDebug() << zoomLevel;
 
     emit zoom_signal(zoomLevel);
 }
@@ -56,5 +57,16 @@ void atlas::controller::ActionController:: bearing(int brg){
 void atlas::controller::ActionController:: tilt(int tlt){
 
     emit tilt_signal(tlt);
+}
+
+void atlas::controller::ActionController::speed(int spped)
+{
+
+    emit speed_signal(spped);
+}
+
+void atlas::controller::ActionController::deleteLoc(int mId)
+{
+        emit deleteLoc_signal(mId);
 }
 

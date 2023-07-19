@@ -37,6 +37,7 @@ namespace  atlas :: controller
         void cntr(const QGeoCoordinate &coordinate1);
         void gocntr();
 
+
         //QGeoCoordinate option(int opt);
 
     };

@@ -19,6 +19,8 @@ atlas::controller::MapDrawer::MapDrawer(QObject *parent, QQmlApplicationEngine *
     engine->rootContext()->setContextProperty("rectangleModel",  &mRectangleModel);
     qmlRegisterType<atlas::gui::GridModel>("com.bitessavunma.gridmodel", 1, 0, "GridModel");
     engine->rootContext()->setContextProperty("gridModel",  &mGridModel);
+    qmlRegisterType<atlas::gui::GridModel>("com.bitessavunma.locationmodel", 1, 0, "LocationModel");
+    engine->rootContext()->setContextProperty("locationModel",  &mLocModel);
 
 
 }
@@ -210,6 +212,18 @@ bool atlas::controller::MapDrawer::setHighlightAll(int count,const QGeoCoordinat
 QGeoCoordinate atlas::controller::MapDrawer::midPoint()
 {
          return mCircleModel.midPoint();
+}
+
+bool atlas::controller::MapDrawer::addLoc(int mId, const QGeoCoordinate &coordinate)
+{
+          mLocModel.add(mId,coordinate);
+         return true;
+}
+
+bool atlas::controller::MapDrawer::removeLoc(int mId)
+{
+        mLocModel.del(mId);
+        return 1;
 }
 
 bool atlas::controller::MapDrawer::setVisibility(int mId, bool status){

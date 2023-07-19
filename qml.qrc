@@ -66,5 +66,23 @@
         <file>icons/h-helicopter.png</file>
         <file>icons/h-tank.png</file>
         <file>icons/h-warship.png</file>
+        <file>icons/xx.png</file>
+        <file>icons/car3d.png</file>
+        <file>icons/drone3d.png</file>
+        <file>icons/heli3d.png</file>
+        <file>icons/jet3d.png</file>
+        <file>icons/mc.png</file>
+        <file>icons/ship3d.png</file>
+        <file>icons/tank3d.png</file>
+        <file>icons/movemap.png</file>
+        <file>icons/speed.png</file>
+        <file>icons/road.png</file>
+        <file>icons/close.png</file>
+        <file>icons/list.png</file>
+        <file>icons/info.png</file>
+        <file>icons/loc.png</file>
+        <file>icons/loch.png</file>
+        <file>icons/locmenu.png</file>
+        <file>icons/addloc.png</file>
     </qresource>
 </RCC>

@@ -13,11 +13,14 @@ public:
     int mId;
     EntityType mType;
     QString mIcon;
+    QString ReelIcon;
     QString highlitedIcon;
     QGeoCoordinate mCoordinate;
     int mHeading;
     int mSpeed;
     bool mIsHighlited;
+    QString typeName;
+
 
 };
 
