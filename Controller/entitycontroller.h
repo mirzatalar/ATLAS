@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QGeoCoordinate>
 #include "GUI/models/customentitymodel.h"
+#include "mapdrawer.h"
 #include "qqmlapplicationengine.h"
 #include <QQmlEngine>
 #include "Controller/mapcontroller.h"

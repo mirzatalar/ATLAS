@@ -97,7 +97,12 @@ bool atlas::gui:: CustomEntityModel::updatePos(int mId, const QGeoCoordinate &ne
 
                 it->mCoordinate.setLatitude(it->mCoordinate.latitude() + newCoordinate.latitude());
                 it->mCoordinate.setLongitude(it->mCoordinate.longitude() + newCoordinate.longitude());
+
+
+
+
                 emit dataChanged(index(std::distance(mData.begin(), it), 0), index(std::distance(mData.begin(), it), 0), roles);
+
                 //endResetModel();
 
 
@@ -177,6 +182,9 @@ int atlas::gui::CustomEntityModel::getSpeed(int mId)
         return it->mSpeed;
     }
 }
+
+
+
 
 int atlas::gui::CustomEntityModel::rowCount(const QModelIndex &parent) const
 {

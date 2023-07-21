@@ -4,7 +4,11 @@ import QtLocation 5.5
 import QtQuick.Controls 2.12
 import QtPositioning 5.12
 import QtQml 2.12
-
+import QtQuick3D 1.15
+import QtQuick3D.Materials 1.15
+import QtQuick3D.Helpers 1.15
+import "dragon"
+import "Airbus A310"
 
 
 Window {
@@ -1460,7 +1464,7 @@ Window {
                                     icon.width: 20
                                     height: 25
                                     width:25
-                                    onClicked:popupa.close() + test.close()
+                                    onClicked:popupa.close()
 
                                     palette.buttonText: "white"
                                     palette.button: "red"
@@ -1554,21 +1558,67 @@ Window {
                                         closePolicy: Popup.CloseOnEscape
 
                                         contentItem: Text {
-                                            topPadding: thereed.height + 100
+                                            topPadding: 100 + view.height
                                             id:infos
                                             text: "Id: " + Id +"\nCenter Coordinate: \n" + QtPositioning.coordinate(latitude, longitude)
                                                 + "\nHeading: " + (-heading) + "\nSpeed: " + Speed
                                             font.pointSize: 12
                                             color:"white"
-                                        }
-                                        Image {
-                                            y:50
-                                            id:thereed
-                                            height: popupa.height / 4
-                                            width: 90*popupa.width/100
-                                            opacity: 1
 
-                                            source: reelicon}
+                                        }
+
+
+                                        View3D {
+                                           height: 92.5*popupa.width/100
+
+                                           id: view
+                                           anchors.top: title.bottom
+                                           anchors.left: popupa.left
+                                           anchors.right: popupa.right
+                                           anchors.leftMargin: 10
+                                           anchors.rightMargin: 10
+                                           width:92.5*popupa.width/100
+                                           //anchors.fill: parent
+                                           environment: SceneEnvironment {
+                                             clearColor: "#112220"
+                                             backgroundMode: SceneEnvironment.Color
+                                           }
+                                           Node {
+                                             id: scene
+                                             PerspectiveCamera {
+                                               id: camera
+                                               z: 100
+
+                                               PropertyAnimation on z {
+//                                                 /loops: Animation.Infinite
+                                                 duration: 3000
+                                                 to: 15
+                                                 from: 400
+                                               }
+                                               //y:30
+                                             }
+                                             DirectionalLight {
+                                               z: 400
+                                               brightness: 600
+                                             }
+
+                                             Dragon{
+                                                    id:eci
+                                                    //visible:false
+
+
+                                                    PropertyAnimation on eulerRotation.y {
+                                                      loops: Animation.Infinite
+                                                      duration: 5000
+                                                      to: 360
+                                                      from: 0
+                                                    }
+                                             }
+
+
+                                           }
+                                         }
+
                                         Text {
 
                                             id:title

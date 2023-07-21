@@ -6,6 +6,7 @@
 #include <GUI/models/entity.h>
 #include <QGeoCoordinate>
 
+
 namespace atlas::gui {
 class CustomEntityModel : public QAbstractListModel
 {
@@ -46,6 +47,8 @@ public:
     bool isInCoor( int mId, const QGeoCoordinate& m1,const QGeoCoordinate &m2);
     void setSpeed(int mId, int speed);
     int getSpeed(int mId);
+    bool isMoving(int mId,bool is);
+    bool isMovng;
 
 
 

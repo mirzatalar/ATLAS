@@ -145,6 +145,8 @@ bool atlas::controller::EntityController::moveAll(int count, const QGeoCoordinat
                 QGeoCoordinate a(changeinx/(800/mCustomEntityModel.getSpeed(i)),changeiny/(800/mCustomEntityModel.getSpeed(i)));
                 if(mCustomEntityModel.isHighlighted(i) == true){
                     mCustomEntityModel.updatePos(i,a);
+
+
                 }
 
 

@@ -156,8 +156,11 @@ void atlas::controller::MainController::LeftClicked(const QGeoCoordinate& coor){
      if(option == 4){
 
 
+
         QGeoCoordinate x = mEntityController->midPoint();
          entityCount = mEntityController->entityCount;
+
+
 
 
 
