@@ -35,32 +35,32 @@ bool atlas::gui::CustomEntityModel::addEntity(int mId, const EntityType &mType, 
             newEntity.mIcon = mIcon;
             if(mType == (EntityType)1){
                 newEntity.highlitedIcon = "qrc:/icons/h-car.png";
-                newEntity.ReelIcon = "qrc:/icons/mc.png";
+                newEntity.ReelIcon = "meshes/formula_1.mesh";
                 newEntity.typeName = "Lighting McQueen";
             }
             else if(mType == (EntityType)2){
                 newEntity.highlitedIcon = "qrc:/icons/h-aircraft.png";
-                newEntity.ReelIcon = "qrc:/icons/jet3d.png";
+                newEntity.ReelIcon = "meshes/node16013_Fighter_Jet_USA_v1.mesh";
                 newEntity.typeName = "Jet";
             }
             else if(mType == (EntityType)3){
                 newEntity.highlitedIcon = "qrc:/icons/h-drone.png";
-                newEntity.ReelIcon = "qrc:/icons/drone3d.png";
+                newEntity.ReelIcon = "meshes/drone.mesh";
                 newEntity.typeName = "Drone";
             }
             else if(mType == (EntityType)4){
                 newEntity.highlitedIcon = "qrc:/icons/h-tank.png";
-                newEntity.ReelIcon = "qrc:/icons/tank3d.png";
+                newEntity.ReelIcon = "meshes/tankk.mesh";
                 newEntity.typeName = "Tank";
             }
             else if(mType == (EntityType)5){
                 newEntity.highlitedIcon = "qrc:/icons/h-helicopter.png";
-                newEntity.ReelIcon = "qrc:/icons/heli3d.png";
+                newEntity.ReelIcon = "meshes/seahawk.mesh";
                 newEntity.typeName = "Helicopter";
             }
             else if(mType == (EntityType)6){
                 newEntity.highlitedIcon = "qrc:/icons/h-warship.png";
-                newEntity.ReelIcon = "qrc:/icons/ship3d.png";
+                newEntity.ReelIcon = "meshes/ship.mesh";
                 newEntity.typeName = "War Ship";
             }
 

@@ -29,7 +29,7 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     QGeoCoordinate a;
     a.setLatitude(40);
     a.setLongitude(36);
-    mMapController.setZoomLevel(13);
+    mMapController.setZoomLevel(6);
     mMapController.setCenter(a);
     mMapController.setTilt(0);
     mMapController.setBearing(0);
@@ -400,6 +400,14 @@ void atlas::controller::MainController::StartAction(int opt){
 
        mapMove = !mapMove;
 
+       start = 0;
+       end = 1;
+    }
+    if(option == 11){
+
+       mMapController.setZoomLevel(6);
+       mMapController.setTilt(0);
+       mMapController.setBearing(0);
        start = 0;
        end = 1;
     }

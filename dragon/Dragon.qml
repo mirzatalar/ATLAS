@@ -1,7 +1,10 @@
 import QtQuick 2.15
 import QtQuick3D 1.15
 
+
 Node {
+
+    property string xm;
     id: rootNode
 
     DirectionalLight {
@@ -18,8 +21,8 @@ Node {
 
     Model {
         id: cube
-        eulerRotation.x: -90
-        source: "meshes/plane.mesh"
+        //eulerRotation.x: -90
+        source: xm
 
         DefaultMaterial {
             id: eYES_material
@@ -40,6 +43,7 @@ Node {
             game_dragon_material,
             game_dragon_001_material
         ]
+
     }
 
 

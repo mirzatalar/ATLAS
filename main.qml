@@ -7,8 +7,9 @@ import QtQml 2.12
 import QtQuick3D 1.15
 import QtQuick3D.Materials 1.15
 import QtQuick3D.Helpers 1.15
+import QtMultimedia 5.15
 import "dragon"
-import "Airbus A310"
+//import "Airbus A310"
 
 
 Window {
@@ -17,11 +18,13 @@ Window {
     height: 720
     visible: true
     title: qsTr("Project:ATLAS")
-    //visibility: "FullScreen"
+    visibility: "FullScreen"
 
     property string xas
     property string xas1
     property string qmlColor : "#0084ff"
+
+
 
 
 
@@ -49,6 +52,31 @@ Window {
         }
 
             Map{
+                Rectangle {
+                    id:reca
+                    visible: true
+                      anchors.fill: parent
+                      color:"black"
+                      z:100
+
+                      MediaPlayer {
+                          id: mediaPlayer
+                          source: "qrc:/video/intro.avi" // Video dosyasının yolunu buraya girin
+
+                          autoLoad: true
+                          autoPlay: true
+                          onStopped: reca.visible = false
+
+                      }
+
+                      VideoOutput {
+                          anchors.fill: parent
+                          source: mediaPlayer
+
+
+                      }
+                  }
+
                 id: map1
                 anchors.fill: parent
                 plugin: gsat
@@ -625,7 +653,7 @@ Window {
                    anchors.right: parent.right
                    anchors.top: topback.bottom
                    anchors.topMargin: 10
-                   height:410
+                   height:460
                    width:60
                    color: "black"
                    opacity: 0.8
@@ -888,6 +916,39 @@ Window {
                          visible: gotocenter.hovered
                          contentItem: Text {
                          text: "Go to Center"
+
+                         color:"white"}
+
+                          background: Rectangle {
+                                  color: "black"
+                                  border.color:qmlColor
+                                  border.width: 3
+                                  opacity: 0.5
+                              }
+                      }
+                }
+
+                RoundButton{
+                   id:reset
+                   anchors.left: zoom.left
+                   anchors.leftMargin: 10
+                   anchors.top: gotocenter.bottom
+                   anchors.topMargin: 10
+                   icon.source: "qrc:/icons/reset.png"
+                   height: 40
+                   width:40
+                   radius:5
+                   onClicked:actionController.startDrawOptiontoAC(11)
+                   palette.buttonText: "white"
+                   palette.button: qmlColor
+                   z:5
+                   ToolTip {
+                         x:-70
+                         y:5
+                         delay: 750
+                         visible: zomme.hovered
+                         contentItem: Text {
+                         text: "Zoom Out"
 
                          color:"white"}
 
@@ -1416,14 +1477,68 @@ Window {
                                     font.pointSize: 12
                                     color:"white"
                                 }
-                                Image {
-                                    y:50
-                                    id:thereed
-                                    height: popupa.height / 4
-                                    width: 90*popupa.width/100
-                                    opacity: 1
 
-                                    source: reelicon}
+                                View3D {
+                                   height: 92.5*popupa.width/100
+
+                                   id: thereed
+                                   anchors.top: title.bottom
+                                   anchors.left: popupa.left
+                                   anchors.right: popupa.right
+                                   anchors.leftMargin: 10
+                                   anchors.rightMargin: 10
+                                   width:92.5*popupa.width/100
+                                   //anchors.fill: parent
+                                   environment: SceneEnvironment {
+                                     clearColor: "#000000"
+                                     backgroundMode: SceneEnvironment.Color
+                                   }
+                                   Node {
+                                     id: scene
+                                     PerspectiveCamera {
+                                       id: camera
+                                       z: 100
+
+                                       PropertyAnimation on z {
+                                       //loops: Animation.Infinite
+                                         duration: 3000
+                                         to: 600
+                                         from: 1000
+                                       }
+                                       PropertyAnimation on y {
+                                       loops: Animation.Infinite
+                                         duration: 20000
+                                         to: 0
+                                         from: 300
+                                       }
+                                     }
+
+                                     DirectionalLight {
+                                       z: -400
+                                       x:400
+                                       y:500
+                                       brightness: 400
+                                       color:"#272727"
+                                     }
+
+
+
+                                     Dragon{
+                                           id:eci
+                                           xm : reelicon
+
+
+                                            PropertyAnimation on eulerRotation.y {
+                                              loops: Animation.Infinite
+                                              duration: 5000
+                                              to: 360
+                                              from: 0
+                                            }
+                                     }
+
+
+                                   }
+                                 }
                                 Text {
 
                                     id:title
@@ -1580,7 +1695,7 @@ Window {
                                            width:92.5*popupa.width/100
                                            //anchors.fill: parent
                                            environment: SceneEnvironment {
-                                             clearColor: "#112220"
+                                             clearColor: "#000000"
                                              backgroundMode: SceneEnvironment.Color
                                            }
                                            Node {
@@ -1590,21 +1705,28 @@ Window {
                                                z: 100
 
                                                PropertyAnimation on z {
-//                                                 /loops: Animation.Infinite
+                                               //loops: Animation.Infinite
                                                  duration: 3000
-                                                 to: 15
-                                                 from: 400
+                                                 to: 600
+                                                 from: 1000
                                                }
-                                               //y:30
+                                               PropertyAnimation on y {
+                                               loops: Animation.Infinite
+                                                 duration: 20000
+                                                 to: 0
+                                                 from: 300
+                                               }
                                              }
                                              DirectionalLight {
                                                z: 400
                                                brightness: 600
+                                               color:"#272727"
                                              }
 
+
                                              Dragon{
-                                                    id:eci
-                                                    //visible:false
+                                                   id:eci
+                                                   xm : reelicon
 
 
                                                     PropertyAnimation on eulerRotation.y {

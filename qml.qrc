@@ -84,10 +84,15 @@
         <file>icons/loch.png</file>
         <file>icons/locmenu.png</file>
         <file>icons/addloc.png</file>
-        <file>dragon/meshes/cube.mesh</file>
         <file>dragon/Dragon.qml</file>
-        <file>Airbus A310/meshes/plane.mesh</file>
-        <file>Airbus A310/Airbus_A310.qml</file>
-        <file>dragon/meshes/plane.mesh</file>
+        <file>dragon/meshes/formula_1.mesh</file>
+        <file>dragon/meshes/drone.mesh</file>
+        <file>dragon/meshes/seahawk.mesh</file>
+        <file>dragon/meshes/node16013_Fighter_Jet_USA_v1.mesh</file>
+        <file>dragon/meshes/tankk.mesh</file>
+        <file>dragon/meshes/ship.mesh</file>
+        <file>video/intro.mp4</file>
+        <file>video/intro.avi</file>
+        <file>icons/reset.png</file>
     </qresource>
 </RCC>
