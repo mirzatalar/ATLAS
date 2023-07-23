@@ -129,6 +129,7 @@ void atlas::controller::MainController::init(QQmlApplicationEngine *engine)
     QObject::connect(&mActionController, &ActionController::addEntity_signal, this, &MainController::addEntity);
     QObject::connect(&mActionController, &ActionController::speed_signal, this, &MainController::setSpeed);
      QObject::connect(&mActionController, &ActionController::deleteLoc_signal, this, &MainController::deleteLoc);
+      QObject::connect(&mActionController, &ActionController::locName_signal, this, &MainController::locNamef);
 
 
 
@@ -198,7 +199,8 @@ else if(addedItem != 0){
 
 else if(option == 10){
     QGuiApplication::restoreOverrideCursor();
-    mMapDrawer->addLoc(++locCount, coor);
+    mMapDrawer->addLoc(++locCount, coor,locName);
+    locName = "";
     start = 0;
     end = 1;
      option =  0;
@@ -493,4 +495,11 @@ void atlas::controller::MainController::setSpeed(int speed)
 {
 
     mEntityController->setSpeed(entityCount,speed);
+}
+
+void atlas::controller::MainController::locNamef(QString locnam)
+{
+    //qDebug() << locnam;
+
+    locName = locnam;
 }

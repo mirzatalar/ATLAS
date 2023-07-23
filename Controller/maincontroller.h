@@ -44,6 +44,7 @@ class  MapDrawer;
         QGeoCoordinate cntr;
         bool mapMove = false;
         int locCount = 0;
+        QString locName = "";
 
 
 
@@ -68,6 +69,7 @@ class  MapDrawer;
         void deleteLoc(int mId);
 
         void setSpeed(int speed);
+        void locNamef(QString locnam);
 
 
 

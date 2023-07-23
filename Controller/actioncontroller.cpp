@@ -67,6 +67,11 @@ void atlas::controller::ActionController::speed(int spped)
 
 void atlas::controller::ActionController::deleteLoc(int mId)
 {
-        emit deleteLoc_signal(mId);
+    emit deleteLoc_signal(mId);
+}
+
+void atlas::controller::ActionController::locName(QString nme)
+{
+    emit locName_signal(nme);
 }
 

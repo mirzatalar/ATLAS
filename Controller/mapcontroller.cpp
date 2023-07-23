@@ -77,7 +77,7 @@ void MapController::setCenterwithAnim(const QGeoCoordinate &newCenter)
     QPropertyAnimation*  zoomAnim2= new  QPropertyAnimation(this, "zoomLevel");
     zoomAnim2->setDuration(1500);
     zoomAnim2->setStartValue(6);
-    zoomAnim2->setEndValue(10);
+    zoomAnim2->setEndValue(12);
     //zoomAnim2->setEasingCurve(QEasingCurve::InOutQuad);
 
 

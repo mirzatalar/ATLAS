@@ -214,9 +214,9 @@ QGeoCoordinate atlas::controller::MapDrawer::midPoint()
          return mCircleModel.midPoint();
 }
 
-bool atlas::controller::MapDrawer::addLoc(int mId, const QGeoCoordinate &coordinate)
+bool atlas::controller::MapDrawer::addLoc(int mId, const QGeoCoordinate &coordinate,QString name)
 {
-          mLocModel.add(mId,coordinate);
+          mLocModel.add(mId,coordinate,name);
          return true;
 }
 

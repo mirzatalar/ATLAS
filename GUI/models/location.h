@@ -8,12 +8,13 @@ class Location
 {
 public:
     Location();
-    Location(int mId, QGeoCoordinate mCoordinate);
+    Location(int mId, QGeoCoordinate mCoordinate, QString name);
     int mId;
     bool mIsHighlited;
     QGeoCoordinate mCoordinate;
     QString icon;
     QString highLitedcon;
+    QString name;
 };
 
 #endif // LOCATION_H

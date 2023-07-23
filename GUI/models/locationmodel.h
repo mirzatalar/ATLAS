@@ -18,10 +18,11 @@ public:
         Latitude,
         Longitude,
         IsHighlited,
-        Icon
+        Icon,
+        Name
     };
 
-    void add(int mId, const QGeoCoordinate& mcoordinate);
+    void add(int mId, const QGeoCoordinate& mcoordinate, QString name);
     void del(int mId);
 
 

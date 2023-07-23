@@ -55,7 +55,7 @@ namespace  atlas :: controller
         QGeoCoordinate midPoint();
 
 
-        bool addLoc(int mId,const QGeoCoordinate &coordinate);
+        bool addLoc(int mId,const QGeoCoordinate &coordinate,QString name);
         bool removeLoc(int mId);
 
 

@@ -18,12 +18,12 @@ Window {
     height: 720
     visible: true
     title: qsTr("Project:ATLAS")
-    visibility: "FullScreen"
+    //visibility: "FullScreen"
 
     property string xas
     property string xas1
     property string qmlColor : "#0084ff"
-
+    property var myLocation: positionSrc.position.coordinate
 
 
 
@@ -45,7 +45,7 @@ Window {
         Plugin{
             id: gsat
             name: "osm"
-            PluginParameter { name: "osm.mapping.providersrepository.address"; value: Qt.resolvedUrl("./providers/satellite/") }
+            PluginParameter { name: "osm.mapping.providersrepository.address"; value: Qt.resolvedUrl("./providers/map/") }
             PluginParameter { name: "osm.mapping.cache.directory"; value: "cache" }
 
             PluginParameter { name: "osm.mapping.cache.disk.size"; value: 9999999999 }
@@ -126,6 +126,111 @@ Window {
                    z:5
                }
 
+
+                Switch {
+                    id: control
+                    checked: false
+                    anchors.right: myloc.left
+                    anchors.rightMargin: -10
+                    y:10
+                    z:10
+                    indicator: Rectangle {
+                        implicitWidth: 80
+                        implicitHeight: 40
+                        radius: 5
+                        color: "black"
+                        border.color: "black"
+
+                        Image{
+                            source:  "qrc:/icons/switch.png"
+                            anchors.fill: parent
+                            anchors.topMargin: 5
+                            anchors.bottomMargin: 5
+                            anchors.leftMargin: 5
+                            anchors.rightMargin: 5
+                        }
+
+                        Rectangle {
+                            x: control.checked ? parent.width - width : 0
+                            width: 40
+                            height: 40
+                            radius: 5
+
+                            color:qmlColor
+                        }
+                    }
+
+                    onToggled:
+                    {
+                        if(checked)
+                        {
+                            map1.activeMapType = map1.supportedMapTypes[6]
+                        }
+                        else
+                        {
+                            map1.activeMapType = map1.supportedMapTypes[0]
+
+                        }
+
+                    }
+                }
+
+                PositionSource {
+                    id: positionSrc
+                    updateInterval: 1000
+                    active: true
+                    //onPositionChanged: layers.setupAnimations(position.coordinate)
+                }
+
+                RoundButton{
+                  id:myloc
+                  icon.source:"qrc:/icons/myloc.png"
+                  onClicked: mapMouseActionController.cntr(myLocation)
+                  anchors.right: coors.left
+                  anchors.rightMargin: 10
+                  width:40
+                  y:10
+                  height: 40
+                  radius:5
+                  palette.buttonText: "white"
+                  palette.button: qmlColor
+                  z:53
+                  ToolTip {
+                        y:50
+                        delay: 750
+                        visible: myloc.hovered
+                        contentItem: Text {
+                        text: "my Location"
+
+                        color:"white"}
+
+                         background: Rectangle {
+                                 color: "black"
+                                 border.color:qmlColor
+                                 border.width: 3
+                                 opacity: 0.5
+                             }
+                     }
+               }
+
+                MapCircle {
+                    id: myloca
+                    center: myLocation
+                    radius: 75
+                    z:30
+                    opacity:0.5
+                    color:"black"
+                    border.width: 0
+                }
+
+                MapCircle {
+                    id: myloca2
+                    center: myLocation
+                    radius: 500
+                    color:"#0084ff"
+                    opacity:0.5
+                    border.width: 0
+                }
                 RoundButton{
                   id:utilities
                   icon.source:"qrc:/icons/shape.png"
@@ -427,7 +532,7 @@ Window {
                    icon.source: "qrc:/icons/addloc.png"
                    height: 40
                    width:40
-                   onClicked:actionController.startDrawOptiontoAC(10)
+                   onClicked:actionController.startDrawOptiontoAC(10) + (locname.visible = true)
                    palette.buttonText: "white"
                    palette.button: qmlColor
                    z:5
@@ -448,6 +553,24 @@ Window {
                               }
                       }
                 }
+
+
+                TextField {
+                    id : locname
+                    visible:false
+                    height : 40
+                    width : 200
+                    anchors.top: addloc.bottom
+                    anchors.left: addloc.left
+                    x: 200
+                    y:500
+                    placeholderText: qsTr("Enter name")
+                    onTextEdited: actionController.locName(text)
+                    onEditingFinished: locname.visible=false + locname.clear()
+                    color:"white"
+                    background: Rectangle { color: "black" ; opacity:0.5;border.width: 2;border.color: qmlColor}
+                }
+
 
 
 
@@ -1194,11 +1317,11 @@ Window {
                                         opacity: 0.6
 
                                         width: 160
-                                        height: 30
+                                        height: 60
 
                                         closePolicy: Popup.CloseOnPressOutside
-                                         contentItem: Text { text: "" + QtPositioning.coordinate(latitude, longitude)
-                                             color:"white"
+                                         contentItem: Text { text: "" + QtPositioning.coordinate(latitude, longitude) + "\nName: " + name
+                                         color:"white"
 
                                          }
                                     }
@@ -1211,7 +1334,9 @@ Window {
 
 
 
+
                 }
+
 
                 }
 
@@ -1253,9 +1378,9 @@ Window {
 
                             Column {
 
-                                Text { font.pixelSize: (3* popupcoor.width / 4) * 0.042;text: '<b>Id:</b> ' + Id ;color:"white" }
-                                Text {font.pixelSize: (3* popupcoor.width / 4) * 0.042;text:"<b>Coordinate:</b> \n" + QtPositioning.coordinate(latitude, longitude)
-                                color:"white"}
+                                Text { font.pixelSize: (3* popupcoor.width / 4) * 0.042;text: '<b>Id: </b> ' + Id ;color:"white" }
+                                Text {font.pixelSize: (3* popupcoor.width / 4) * 0.042;text:"<b>Coordinate: </b> \n" + QtPositioning.coordinate(latitude, longitude); color:"white"}
+                                Text {font.pixelSize: (3* popupcoor.width / 4) * 0.042;text:"<b>Name: </b> \n" + name; color:"white"}
 
 
                             }
@@ -1267,7 +1392,7 @@ Window {
 
                                 radius:5
                                 onClicked:  mapMouseActionController.cntr(QtPositioning.coordinate(latitude, longitude))
-                                icon.source: "qrc:/icons/info.png"
+                                icon.source: "qrc:/icons/goto.png"
                                 icon.height: popupcoor.width / 9 - 10
                                 icon.width: popupcoor.width / 9 - 10
                                 height: popupcoor.width / 9
@@ -1606,7 +1731,7 @@ Window {
                 MapItemView {
                     model: customEntityModel
                     delegate:
-                        MapQuickItem{                      
+                        MapQuickItem{
                         id:entityGraph
 
                             sourceItem: Image {

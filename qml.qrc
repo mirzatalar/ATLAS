@@ -94,5 +94,7 @@
         <file>video/intro.mp4</file>
         <file>video/intro.avi</file>
         <file>icons/reset.png</file>
+        <file>icons/switch.png</file>
+        <file>icons/myloc.png</file>
     </qresource>
 </RCC>

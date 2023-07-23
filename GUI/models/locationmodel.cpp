@@ -9,15 +9,16 @@ atlas::gui::LocationModel::LocationModel::LocationModel(QObject *parent)
     mRoleNames[Longitude] = "longitude";
     mRoleNames[IsHighlited] = "ishighlited";
     mRoleNames[Icon] = "icon";
+    mRoleNames[Name] = "name";
 }
 
-void atlas::gui::LocationModel::add(int mId, const QGeoCoordinate &mcoordinate)
+void atlas::gui::LocationModel::add(int mId, const QGeoCoordinate &mcoordinate,QString name)
 {
     beginResetModel();
 
 
 
-    Location newLoc(mId, mcoordinate);
+    Location newLoc(mId, mcoordinate,name);
 
 
 
@@ -81,6 +82,8 @@ QVariant atlas::gui::LocationModel::data(const QModelIndex &index, int role) con
 
     case Id:
         return Location.mId;
+    case Name:
+        return Location.name;
 
     case Latitude:
         return Location.mCoordinate.latitude();

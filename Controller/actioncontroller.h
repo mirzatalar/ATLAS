@@ -30,6 +30,7 @@ namespace atlas::controller{
            void addEntity_signal(int opt);
            void speed_signal(int speed);
            void deleteLoc_signal(int mId);
+           void locName_signal(QString nme);
 
 
 
@@ -44,6 +45,7 @@ namespace atlas::controller{
             void tilt(int tlt);
             void speed(int spped);
             void deleteLoc(int mId);
+            void locName(QString nme);
 
 
     };
